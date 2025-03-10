@@ -1,0 +1,3800 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="In Traefik Proxy, the HTTP headers middleware manages the headers of requests and responses. Read the technical documentation.">
+      
+      
+      
+      
+        <meta name="author" content="traefik.io">
+      
+      
+      
+        <link rel="shortcut icon" href="https://doc.traefik.io/traefik/assets/img/traefikproxy-icon-color.png" type="image/x-icon">
+      
+      
+        <link rel="shortcut icon" href="https://doc.traefik.io/traefik/assets/images/logo-traefik-proxy-icon.svg" type="image/svg+xml">
+      
+      <meta name="generator" content="mkdocs-1.2.4, mkdocs-traefiklabs-100.0.23">
+    
+    
+      
+        <title>Traefik Headers Documentation - Traefik</title>
+      
+    
+    
+      <link rel="stylesheet" href="https://doc.traefik.io/traefik/assets/stylesheets/main.aba156d1.min.css">
+      
+        
+        <link rel="stylesheet" href="https://doc.traefik.io/traefik/assets/stylesheets/palette.bd9ced1d.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#00bdd6">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      <script>!function(e,t,a,n){e[n]=e[n]||[],e[n].push({"gtm.start":(new Date).getTime(),event:"gtm.js"});var g=t.getElementsByTagName(a)[0],m=t.createElement(a);m.async=!0,m.src="https://www.googletagmanager.com/gtm.js?id=GTM-NMWC63S",g.parentNode.insertBefore(m,g)}(window,document,"script","dataLayer")</script>
+    
+    
+    <script src="https://traefik.github.io/traefiklabs-header-app/main-v1.js"></script>
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="cyan" data-md-color-accent="cyan">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="index.html#headers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    
+      <header class="md-header">
+  
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required onfocus='document.querySelector("[data-md-toggle=search]").click()'>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+<div style="height:64px"></div>
+<header-app></header-app>
+<div class="header-container__mobile"></div>
+<label class="md-icon md-icon--menu md-header-nav__button" for="__drawer">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+</label>
+    
+    <div class="md-container" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary">
+                <nav class="product-switcher">
+  <div class="menu-item-wrapper menu-item-wrapper--dropdown">
+    <a class="menu-item menu-item--with-icon">
+      
+      <img src="https://doc.traefik.io/traefik/assets/images/logo-traefik-proxy-logo.svg" height="48px" width="auto" alt="Traefik Proxy">
+      
+      <span class="icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </a>
+    <div class="nav-dropdown-menu nav-dropdown-menu--products">
+      <div class="nav-dropdown-menu-wrapper">
+        <div class="dm-header">Product Documentation</div>
+        <div class="dm-items">
+           
+          <div class="dm-item">
+            <div class="dmi-image hub">
+              <img src="https://doc.traefik.io/traefik/assets/images/traefik-hub-logo-white.svg" alt="Traefik Hub">
+            </div>
+            <a class="dmi-details" href="https://doc.traefik.io/traefik-hub/">
+              <div class="dmi-title">Traefik Hub</div>
+              <div class="dmi-description">
+                Kubernetes-Native API Management
+              </div>
+            </a>
+          </div>
+           
+          <div class="dm-item dm-item--traefikee">
+            <div class="dmi-image enterprise">
+              <img src="https://doc.traefik.io/traefik/assets/images/traefik-enterprise-logo.svg" alt="Traefik Enterprise">
+            </div>
+            <a class="dmi-details" href="https://doc.traefik.io/traefik-enterprise/">
+              <div class="dmi-title">Traefik Enterprise</div>
+              <div class="dmi-description">
+                The API Gateway Cloud Natives Trust
+              </div>
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+                
+                  
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required onfocus='document.querySelector("[data-md-toggle=search]").click()'>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                  <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+                
+                <div class="md-sidebar__scrollwrap" data-md-component="navigation">
+                  <div class="md-sidebar__inner">
+                  
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="Traefik" class="md-nav__button md-logo" aria-label="Traefik">
+      
+  <img src="https://doc.traefik.io/traefik/assets/img/traefikproxy-vertical-logo-color.svg" alt="logo">
+
+    </a>
+    Traefik
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/traefik/traefik/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../index.html" class="md-nav__link">
+      Welcome
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+    <label class="md-nav__link" for="nav-2">
+      <span class="md-nav__item-title">Getting Started</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/concepts/" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2" >
+    <label class="md-nav__link" for="nav-2-2">
+      <span class="md-nav__item-title">Quick Start</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Quick Start" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        <span class="md-nav__icon md-icon"></span>
+        Quick Start
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/quick-start/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/quick-start-with-kubernetes/" class="md-nav__link">
+      Kubernetes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/configuration-overview/" class="md-nav__link">
+      Configuration Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/install-traefik/" class="md-nav__link">
+      Install Traefik
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/faq/" class="md-nav__link">
+      Frequently Asked Questions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+    <label class="md-nav__link" for="nav-3">
+      <span class="md-nav__item-title">Configuration Discovery</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Configuration Discovery" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        Configuration Discovery
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/docker/index.html" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/swarm/index.html" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/kubernetes-crd/index.html" class="md-nav__link">
+      Kubernetes IngressRoute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/kubernetes-ingress/index.html" class="md-nav__link">
+      Kubernetes Ingress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/kubernetes-gateway/index.html" class="md-nav__link">
+      Kubernetes Gateway API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/consul-catalog/index.html" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/nomad/index.html" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/ecs/index.html" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/file/index.html" class="md-nav__link">
+      File
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/consul/index.html" class="md-nav__link">
+      Consul
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/etcd/index.html" class="md-nav__link">
+      Etcd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/zookeeper/index.html" class="md-nav__link">
+      ZooKeeper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/redis/index.html" class="md-nav__link">
+      Redis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../providers/http/index.html" class="md-nav__link">
+      HTTP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+    <label class="md-nav__link" for="nav-4">
+      <span class="md-nav__item-title">Routing & Load Balancing</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Routing & Load Balancing" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        Routing & Load Balancing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/entrypoints/" class="md-nav__link">
+      EntryPoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/routers/" class="md-nav__link">
+      Routers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/services/" class="md-nav__link">
+      Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5" >
+    <label class="md-nav__link" for="nav-4-5">
+      <span class="md-nav__item-title">Providers</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Providers" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        <span class="md-nav__icon md-icon"></span>
+        Providers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/swarm/" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/" class="md-nav__link">
+      Kubernetes IngressRoute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kubernetes-ingress/" class="md-nav__link">
+      Kubernetes Ingress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kubernetes-gateway/" class="md-nav__link">
+      Kubernetes Gateway API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/consul-catalog/" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/nomad/" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/ecs/" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kv/" class="md-nav__link">
+      KV
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+    <label class="md-nav__link" for="nav-5">
+      <span class="md-nav__item-title">HTTPS & TLS</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="HTTPS & TLS" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        HTTPS & TLS
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/tls/" class="md-nav__link">
+      TLS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/acme/" class="md-nav__link">
+      Let's Encrypt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/tailscale/" class="md-nav__link">
+      Tailscale
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/spiffe/" class="md-nav__link">
+      SPIFFE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    <label class="md-nav__link" for="nav-6">
+      <span class="md-nav__item-title">Middlewares</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Middlewares" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Middlewares
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2" checked>
+    <label class="md-nav__link" for="nav-6-2">
+      <span class="md-nav__item-title">HTTP</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="HTTP" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        <span class="md-nav__icon md-icon"></span>
+        HTTP
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../addprefix/index.html" class="md-nav__link">
+      AddPrefix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basicauth/index.html" class="md-nav__link">
+      BasicAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../buffering/index.html" class="md-nav__link">
+      Buffering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../chain/index.html" class="md-nav__link">
+      Chain
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../circuitbreaker/index.html" class="md-nav__link">
+      CircuitBreaker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compress/index.html" class="md-nav__link">
+      Compress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contenttype/index.html" class="md-nav__link">
+      ContentType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../digestauth/index.html" class="md-nav__link">
+      DigestAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../errorpages/index.html" class="md-nav__link">
+      Errors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../forwardauth/index.html" class="md-nav__link">
+      ForwardAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../grpcweb/index.html" class="md-nav__link">
+      GrpcWeb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Headers
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="index.html" class="md-nav__link md-nav__link--active">
+      Headers
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="index.html#configuration-examples" class="md-nav__link">
+    Configuration Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#adding-headers-to-the-request-and-the-response" class="md-nav__link">
+    Adding Headers to the Request and the Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#adding-and-removing-headers" class="md-nav__link">
+    Adding and Removing Headers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#using-security-headers" class="md-nav__link">
+    Using Security Headers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#cors-headers" class="md-nav__link">
+    CORS Headers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="index.html#configuration-options" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#general" class="md-nav__link">
+    General
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#customrequestheaders" class="md-nav__link">
+    customRequestHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#customresponseheaders" class="md-nav__link">
+    customResponseHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolallowcredentials" class="md-nav__link">
+    accessControlAllowCredentials
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolallowheaders" class="md-nav__link">
+    accessControlAllowHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolallowmethods" class="md-nav__link">
+    accessControlAllowMethods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolalloworiginlist" class="md-nav__link">
+    accessControlAllowOriginList
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolalloworiginlistregex" class="md-nav__link">
+    accessControlAllowOriginListRegex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolexposeheaders" class="md-nav__link">
+    accessControlExposeHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolmaxage" class="md-nav__link">
+    accessControlMaxAge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#addvaryheader" class="md-nav__link">
+    addVaryHeader
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#allowedhosts" class="md-nav__link">
+    allowedHosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#hostsproxyheaders" class="md-nav__link">
+    hostsProxyHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslredirect" class="md-nav__link">
+    sslRedirect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#ssltemporaryredirect" class="md-nav__link">
+    sslTemporaryRedirect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslhost" class="md-nav__link">
+    sslHost
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslproxyheaders" class="md-nav__link">
+    sslProxyHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslforcehost" class="md-nav__link">
+    sslForceHost
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#stsseconds" class="md-nav__link">
+    stsSeconds
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#stsincludesubdomains" class="md-nav__link">
+    stsIncludeSubdomains
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#stspreload" class="md-nav__link">
+    stsPreload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#forcestsheader" class="md-nav__link">
+    forceSTSHeader
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#framedeny" class="md-nav__link">
+    frameDeny
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#customframeoptionsvalue" class="md-nav__link">
+    customFrameOptionsValue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#contenttypenosniff" class="md-nav__link">
+    contentTypeNosniff
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#browserxssfilter" class="md-nav__link">
+    browserXssFilter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#custombrowserxssvalue" class="md-nav__link">
+    customBrowserXSSValue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#contentsecuritypolicy" class="md-nav__link">
+    contentSecurityPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#contentsecuritypolicyreportonly" class="md-nav__link">
+    contentSecurityPolicyReportOnly
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#publickey" class="md-nav__link">
+    publicKey
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#referrerpolicy" class="md-nav__link">
+    referrerPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#featurepolicy" class="md-nav__link">
+    featurePolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#permissionspolicy" class="md-nav__link">
+    permissionsPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#isdevelopment" class="md-nav__link">
+    isDevelopment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ipwhitelist/index.html" class="md-nav__link">
+      IPWhiteList
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ipallowlist/index.html" class="md-nav__link">
+      IPAllowList
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../inflightreq/index.html" class="md-nav__link">
+      InFlightReq
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../passtlsclientcert/index.html" class="md-nav__link">
+      PassTLSClientCert
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ratelimit/index.html" class="md-nav__link">
+      RateLimit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../redirectregex/index.html" class="md-nav__link">
+      RedirectRegex
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../redirectscheme/index.html" class="md-nav__link">
+      RedirectScheme
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../replacepath/index.html" class="md-nav__link">
+      ReplacePath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../replacepathregex/index.html" class="md-nav__link">
+      ReplacePathRegex
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../retry/index.html" class="md-nav__link">
+      Retry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../stripprefix/index.html" class="md-nav__link">
+      StripPrefix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../stripprefixregex/index.html" class="md-nav__link">
+      StripPrefixRegex
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3" >
+    <label class="md-nav__link" for="nav-6-3">
+      <span class="md-nav__item-title">TCP</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="TCP" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-3">
+        <span class="md-nav__icon md-icon"></span>
+        TCP
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tcp/overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tcp/inflightconn/index.html" class="md-nav__link">
+      InFlightConn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tcp/ipwhitelist/index.html" class="md-nav__link">
+      IPWhiteList
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tcp/ipallowlist/index.html" class="md-nav__link">
+      IPAllowList
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/plugins/" class="md-nav__link">
+      Plugins & Plugin Catalog
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8" >
+    <label class="md-nav__link" for="nav-8">
+      <span class="md-nav__item-title">Operations</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Operations" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Operations
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/cli/" class="md-nav__link">
+      CLI
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/dashboard/" class="md-nav__link">
+      Dashboard
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/api/" class="md-nav__link">
+      API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/ping/" class="md-nav__link">
+      Ping
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9" >
+    <label class="md-nav__link" for="nav-9">
+      <span class="md-nav__item-title">Observability</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Observability" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Observability
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/logs/" class="md-nav__link">
+      Logs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/access-logs/" class="md-nav__link">
+      Access Logs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-4" type="checkbox" id="nav-9-4" >
+    <label class="md-nav__link" for="nav-9-4">
+      <span class="md-nav__item-title">Metrics</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Metrics" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-4">
+        <span class="md-nav__icon md-icon"></span>
+        Metrics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/datadog/" class="md-nav__link">
+      Datadog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/influxdb2/" class="md-nav__link">
+      InfluxDB2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/opentelemetry/" class="md-nav__link">
+      OpenTelemetry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/prometheus/" class="md-nav__link">
+      Prometheus
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/statsd/" class="md-nav__link">
+      StatsD
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-5" type="checkbox" id="nav-9-5" >
+    <label class="md-nav__link" for="nav-9-5">
+      <span class="md-nav__item-title">Tracing</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Tracing" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-5">
+        <span class="md-nav__icon md-icon"></span>
+        Tracing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/tracing/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/tracing/opentelemetry/" class="md-nav__link">
+      OpenTelemetry
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" >
+    <label class="md-nav__link" for="nav-10">
+      <span class="md-nav__item-title">User Guides</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="User Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        <span class="md-nav__icon md-icon"></span>
+        User Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/fastproxy/" class="md-nav__link">
+      FastProxy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/crd-acme/" class="md-nav__link">
+      Kubernetes and Let's Encrypt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/cert-manager/" class="md-nav__link">
+      Kubernetes and cert-manager
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/grpc/" class="md-nav__link">
+      gRPC Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10-5" type="checkbox" id="nav-10-5" >
+    <label class="md-nav__link" for="nav-10-5">
+      <span class="md-nav__item-title">Docker</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Docker" data-md-level="2">
+      <label class="md-nav__title" for="nav-10-5">
+        <span class="md-nav__icon md-icon"></span>
+        Docker
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/" class="md-nav__link">
+      Basic Example
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10-5-2" type="checkbox" id="nav-10-5-2" >
+    <label class="md-nav__link" for="nav-10-5-2">
+      <span class="md-nav__item-title">HTTPS with Let's Encrypt</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="HTTPS with Let's Encrypt" data-md-level="3">
+      <label class="md-nav__title" for="nav-10-5-2">
+        <span class="md-nav__icon md-icon"></span>
+        HTTPS with Let's Encrypt
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/acme-tls/" class="md-nav__link">
+      TLS Challenge
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/acme-http/" class="md-nav__link">
+      HTTP Challenge
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/acme-dns/" class="md-nav__link">
+      DNS Challenge
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11" >
+    <label class="md-nav__link" for="nav-11">
+      <span class="md-nav__item-title">Migration</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Migration" data-md-level="1">
+      <label class="md-nav__title" for="nav-11">
+        <span class="md-nav__icon md-icon"></span>
+        Migration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v3/" class="md-nav__link">
+      Traefik v3 minor migrations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11-2" type="checkbox" id="nav-11-2" >
+    <label class="md-nav__link" for="nav-11-2">
+      <span class="md-nav__item-title">Traefik v2 to v3</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Traefik v2 to v3" data-md-level="2">
+      <label class="md-nav__title" for="nav-11-2">
+        <span class="md-nav__icon md-icon"></span>
+        Traefik v2 to v3
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v2-to-v3/" class="md-nav__link">
+      Migration guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v2-to-v3-details/" class="md-nav__link">
+      Configuration changes for v3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v2/" class="md-nav__link">
+      Traefik v2 minor migrations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v1-to-v2/" class="md-nav__link">
+      Traefik v1 to v2
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12" >
+    <label class="md-nav__link" for="nav-12">
+      <span class="md-nav__item-title">Contributing</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contributing" data-md-level="1">
+      <label class="md-nav__title" for="nav-12">
+        <span class="md-nav__icon md-icon"></span>
+        Contributing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/thank-you/" class="md-nav__link">
+      Thank You!
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/submitting-issues/" class="md-nav__link">
+      Submitting Issues
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/submitting-pull-requests/" class="md-nav__link">
+      Submitting PRs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/submitting-security-issues/" class="md-nav__link">
+      Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/building-testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/documentation/" class="md-nav__link">
+      Documentation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/data-collection/" class="md-nav__link">
+      Data Collection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/advocating/" class="md-nav__link">
+      Advocating
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/maintainers/" class="md-nav__link">
+      Maintainers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13" >
+    <label class="md-nav__link" for="nav-13">
+      <span class="md-nav__item-title">Reference</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Reference" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon"></span>
+        Reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1" type="checkbox" id="nav-13-1" >
+    <label class="md-nav__link" for="nav-13-1">
+      <span class="md-nav__item-title">Install Configuration</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Install Configuration" data-md-level="2">
+      <label class="md-nav__title" for="nav-13-1">
+        <span class="md-nav__icon md-icon"></span>
+        Install Configuration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/boot-environment/" class="md-nav__link">
+      Boot Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2" type="checkbox" id="nav-13-1-2" >
+    <label class="md-nav__link" for="nav-13-1-2">
+      <span class="md-nav__item-title">Configuration Discovery</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Configuration Discovery" data-md-level="3">
+      <label class="md-nav__title" for="nav-13-1-2">
+        <span class="md-nav__icon md-icon"></span>
+        Configuration Discovery
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-2" type="checkbox" id="nav-13-1-2-2" >
+    <label class="md-nav__link" for="nav-13-1-2-2">
+      <span class="md-nav__item-title">Kubernetes</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Kubernetes" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-2">
+        <span class="md-nav__icon md-icon"></span>
+        Kubernetes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-gateway/" class="md-nav__link">
+      Kubernetes Gateway API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-crd/" class="md-nav__link">
+      Kubernetes CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-ingress/" class="md-nav__link">
+      Kubernetes Ingress
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/swarm/" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-5" type="checkbox" id="nav-13-1-2-5" >
+    <label class="md-nav__link" for="nav-13-1-2-5">
+      <span class="md-nav__item-title">Hashicorp</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Hashicorp" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-5">
+        <span class="md-nav__icon md-icon"></span>
+        Hashicorp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/hashicorp/nomad/" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/hashicorp/consul/" class="md-nav__link">
+      Consul
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/hashicorp/consul-catalog/" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-6" type="checkbox" id="nav-13-1-2-6" >
+    <label class="md-nav__link" for="nav-13-1-2-6">
+      <span class="md-nav__item-title">KV Stores</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="KV Stores" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-6">
+        <span class="md-nav__icon md-icon"></span>
+        KV Stores
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/redis/" class="md-nav__link">
+      Redis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/consul/" class="md-nav__link">
+      Consul
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/etcd/" class="md-nav__link">
+      etcd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/zk/" class="md-nav__link">
+      ZooKeeper
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-7" type="checkbox" id="nav-13-1-2-7" >
+    <label class="md-nav__link" for="nav-13-1-2-7">
+      <span class="md-nav__item-title">Others</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Others" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-7">
+        <span class="md-nav__icon md-icon"></span>
+        Others
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/others/file/" class="md-nav__link">
+      File
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/others/ecs/" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/others/http/" class="md-nav__link">
+      HTTP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/" class="md-nav__link">
+      EntryPoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/api-dashboard/" class="md-nav__link">
+      API & Dashboard
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-5" type="checkbox" id="nav-13-1-5" >
+    <label class="md-nav__link" for="nav-13-1-5">
+      <span class="md-nav__item-title">TLS</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="TLS" data-md-level="3">
+      <label class="md-nav__title" for="nav-13-1-5">
+        <span class="md-nav__icon md-icon"></span>
+        TLS
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-5-1" type="checkbox" id="nav-13-1-5-1" >
+    <label class="md-nav__link" for="nav-13-1-5-1">
+      <span class="md-nav__item-title">Certificate Resolvers</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Certificate Resolvers" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-5-1">
+        <span class="md-nav__icon md-icon"></span>
+        Certificate Resolvers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/" class="md-nav__link">
+      ACME
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/tailscale/" class="md-nav__link">
+      Tailscale
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/spiffe/" class="md-nav__link">
+      SPIFFE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-6" type="checkbox" id="nav-13-1-6" >
+    <label class="md-nav__link" for="nav-13-1-6">
+      <span class="md-nav__item-title">Observability</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Observability" data-md-level="3">
+      <label class="md-nav__title" for="nav-13-1-6">
+        <span class="md-nav__icon md-icon"></span>
+        Observability
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/metrics/" class="md-nav__link">
+      Metrics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/tracing/" class="md-nav__link">
+      Tracing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/" class="md-nav__link">
+      Logs & AccessLogs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/healthcheck/" class="md-nav__link">
+      Health Check (CLI & Ping)
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-2" type="checkbox" id="nav-13-2" >
+    <label class="md-nav__link" for="nav-13-2">
+      <span class="md-nav__item-title">Dynamic Configuration</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Dynamic Configuration" data-md-level="2">
+      <label class="md-nav__title" for="nav-13-2">
+        <span class="md-nav__icon md-icon"></span>
+        Dynamic Configuration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/file/" class="md-nav__link">
+      File
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/swarm/" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/kubernetes-crd/" class="md-nav__link">
+      Kubernetes CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/consul-catalog/" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/nomad/" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/ecs/" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/kv/" class="md-nav__link">
+      KV
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-14" type="checkbox" id="nav-14" >
+    <label class="md-nav__link" for="nav-14">
+      <span class="md-nav__item-title">Deprecation Notices</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Deprecation Notices" data-md-level="1">
+      <label class="md-nav__title" for="nav-14">
+        <span class="md-nav__icon md-icon"></span>
+        Deprecation Notices
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/deprecation/releases/" class="md-nav__link">
+      Releases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/deprecation/features/" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary">
+                
+                  <div class="md-flex__cell md-flex__cell--shrink repo_url">
+                    <div class="md-header-nav__source">
+                      
+<a href="https://github.com/traefik/traefik/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+                    </div>
+                  </div>
+                
+                <div class="md-sidebar__scrollwrap" data-md-component="toc">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="index.html#configuration-examples" class="md-nav__link">
+    Configuration Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#adding-headers-to-the-request-and-the-response" class="md-nav__link">
+    Adding Headers to the Request and the Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#adding-and-removing-headers" class="md-nav__link">
+    Adding and Removing Headers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#using-security-headers" class="md-nav__link">
+    Using Security Headers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#cors-headers" class="md-nav__link">
+    CORS Headers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="index.html#configuration-options" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#general" class="md-nav__link">
+    General
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#customrequestheaders" class="md-nav__link">
+    customRequestHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#customresponseheaders" class="md-nav__link">
+    customResponseHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolallowcredentials" class="md-nav__link">
+    accessControlAllowCredentials
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolallowheaders" class="md-nav__link">
+    accessControlAllowHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolallowmethods" class="md-nav__link">
+    accessControlAllowMethods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolalloworiginlist" class="md-nav__link">
+    accessControlAllowOriginList
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolalloworiginlistregex" class="md-nav__link">
+    accessControlAllowOriginListRegex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolexposeheaders" class="md-nav__link">
+    accessControlExposeHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#accesscontrolmaxage" class="md-nav__link">
+    accessControlMaxAge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#addvaryheader" class="md-nav__link">
+    addVaryHeader
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#allowedhosts" class="md-nav__link">
+    allowedHosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#hostsproxyheaders" class="md-nav__link">
+    hostsProxyHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslredirect" class="md-nav__link">
+    sslRedirect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#ssltemporaryredirect" class="md-nav__link">
+    sslTemporaryRedirect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslhost" class="md-nav__link">
+    sslHost
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslproxyheaders" class="md-nav__link">
+    sslProxyHeaders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#sslforcehost" class="md-nav__link">
+    sslForceHost
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#stsseconds" class="md-nav__link">
+    stsSeconds
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#stsincludesubdomains" class="md-nav__link">
+    stsIncludeSubdomains
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#stspreload" class="md-nav__link">
+    stsPreload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#forcestsheader" class="md-nav__link">
+    forceSTSHeader
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#framedeny" class="md-nav__link">
+    frameDeny
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#customframeoptionsvalue" class="md-nav__link">
+    customFrameOptionsValue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#contenttypenosniff" class="md-nav__link">
+    contentTypeNosniff
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#browserxssfilter" class="md-nav__link">
+    browserXssFilter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#custombrowserxssvalue" class="md-nav__link">
+    customBrowserXSSValue
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#contentsecuritypolicy" class="md-nav__link">
+    contentSecurityPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#contentsecuritypolicyreportonly" class="md-nav__link">
+    contentSecurityPolicyReportOnly
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#publickey" class="md-nav__link">
+    publicKey
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#referrerpolicy" class="md-nav__link">
+    referrerPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#featurepolicy" class="md-nav__link">
+    featurePolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#permissionspolicy" class="md-nav__link">
+    permissionsPolicy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#isdevelopment" class="md-nav__link">
+    isDevelopment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/traefik/traefik/edit/v3.3/docs/content/middlewares/http/headers.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="headers">Headers<a class="headerlink" href="index.html#headers" title="Permanent link">&para;</a></h1>
+<p class="subtitle">Managing Request/Response headers</p>
+<p><img alt="Headers" src="https://doc.traefik.io/traefik/assets/img/middleware/headers.png" /></p>
+<p>The Headers middleware manages the headers of requests and responses.</p>
+<p>A set of forwarded headers are automatically added by default. See the <a href="https://doc.traefik.io/traefik/getting-started/faq/#what-are-the-forwarded-headers-when-proxying-http-requests">FAQ</a> for more information.</p>
+<h2 id="configuration-examples">Configuration Examples<a class="headerlink" href="index.html#configuration-examples" title="Permanent link">&para;</a></h2>
+<h3 id="adding-headers-to-the-request-and-the-response">Adding Headers to the Request and the Response<a class="headerlink" href="index.html#adding-headers-to-the-request-and-the-response" title="Permanent link">&para;</a></h3>
+<p>The following example adds the <code>X-Script-Name</code> header to the proxied request and the <code>X-Custom-Response-Header</code> header to the response</p>
+<div class="tabbed-set" data-tabs="1:5">
+<input name="__tabbed_1" type="radio" id="__tabbed_1_1" checked="checked" /><label for="__tabbed_1_1">Docker & Swarm</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">labels:
+  - "traefik.http.middlewares.testHeader.headers.customrequestheaders.X-Script-Name=test"
+  - "traefik.http.middlewares.testHeader.headers.customresponseheaders.X-Custom-Response-Header=value"</code></pre></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_2" /><label for="__tabbed_1_2">Kubernetes</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header
+spec:
+  headers:
+    customRequestHeaders:
+      X-Script-Name: "test"
+    customResponseHeaders:
+      X-Custom-Response-Header: "value"</code></pre></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_3" /><label for="__tabbed_1_3">Consul Catalog</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">- "traefik.http.middlewares.testheader.headers.customrequestheaders.X-Script-Name=test"
+- "traefik.http.middlewares.testheader.headers.customresponseheaders.X-Custom-Response-Header=value"</code></pre></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_4" /><label for="__tabbed_1_4">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">http:
+  middlewares:
+    testHeader:
+      headers:
+        customRequestHeaders:
+          X-Script-Name: "test"
+        customResponseHeaders:
+          X-Custom-Response-Header: "value"</code></pre></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_5" /><label for="__tabbed_1_5">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[http.middlewares]
+  [http.middlewares.testHeader.headers]
+    [http.middlewares.testHeader.headers.customRequestHeaders]
+        X-Script-Name = "test"
+    [http.middlewares.testHeader.headers.customResponseHeaders]
+        X-Custom-Response-Header = "value"</code></pre></div>
+</div>
+<h3 id="adding-and-removing-headers">Adding and Removing Headers<a class="headerlink" href="index.html#adding-and-removing-headers" title="Permanent link">&para;</a></h3>
+<p>In the following example, requests are proxied with an extra <code>X-Script-Name</code> header while their <code>X-Custom-Request-Header</code> header gets stripped,
+and responses are stripped of their <code>X-Custom-Response-Header</code> header.</p>
+<div class="tabbed-set" data-tabs="2:5">
+<input name="__tabbed_2" type="radio" id="__tabbed_2_1" checked="checked" /><label for="__tabbed_2_1">Docker & Swarm</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">labels:
+  - "traefik.http.middlewares.testheader.headers.customrequestheaders.X-Script-Name=test"
+  - "traefik.http.middlewares.testheader.headers.customrequestheaders.X-Custom-Request-Header="
+  - "traefik.http.middlewares.testheader.headers.customresponseheaders.X-Custom-Response-Header="</code></pre></div>
+<input name="__tabbed_2" type="radio" id="__tabbed_2_2" /><label for="__tabbed_2_2">Kubernetes</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header
+spec:
+  headers:
+    customRequestHeaders:
+      X-Script-Name: "test" # Adds
+      X-Custom-Request-Header: "" # Removes
+    customResponseHeaders:
+      X-Custom-Response-Header: "" # Removes</code></pre></div>
+<input name="__tabbed_2" type="radio" id="__tabbed_2_3" /><label for="__tabbed_2_3">Consul Catalog</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">- "traefik.http.middlewares.testheader.headers.customrequestheaders.X-Script-Name=test"
+- "traefik.http.middlewares.testheader.headers.customrequestheaders.X-Custom-Request-Header="
+- "traefik.http.middlewares.testheader.headers.customresponseheaders.X-Custom-Response-Header="</code></pre></div>
+<input name="__tabbed_2" type="radio" id="__tabbed_2_4" /><label for="__tabbed_2_4">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">http:
+  middlewares:
+    testHeader:
+      headers:
+        customRequestHeaders:
+          X-Script-Name: "test" # Adds
+          X-Custom-Request-Header: "" # Removes
+        customResponseHeaders:
+          X-Custom-Response-Header: "" # Removes</code></pre></div>
+<input name="__tabbed_2" type="radio" id="__tabbed_2_5" /><label for="__tabbed_2_5">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[http.middlewares]
+  [http.middlewares.testHeader.headers]
+    [http.middlewares.testHeader.headers.customRequestHeaders]
+        X-Script-Name = "test" # Adds
+        X-Custom-Request-Header = "" # Removes
+    [http.middlewares.testHeader.headers.customResponseHeaders]
+        X-Custom-Response-Header = "" # Removes</code></pre></div>
+</div>
+<h3 id="using-security-headers">Using Security Headers<a class="headerlink" href="index.html#using-security-headers" title="Permanent link">&para;</a></h3>
+<p>Security-related headers (HSTS headers, Browser XSS filter, etc) can be managed similarly to custom headers as shown above.
+This functionality makes it possible to easily use security features by adding headers.</p>
+<div class="tabbed-set" data-tabs="3:5">
+<input name="__tabbed_3" type="radio" id="__tabbed_3_1" checked="checked" /><label for="__tabbed_3_1">Docker & Swarm</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">labels:
+  - "traefik.http.middlewares.testHeader.headers.framedeny=true"
+  - "traefik.http.middlewares.testHeader.headers.browserxssfilter=true"</code></pre></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_2" /><label for="__tabbed_3_2">Kubernetes</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header
+spec:
+  headers:
+    frameDeny: true
+    browserXssFilter: true</code></pre></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_3" /><label for="__tabbed_3_3">Consul Catalog</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">- "traefik.http.middlewares.testheader.headers.framedeny=true"
+- "traefik.http.middlewares.testheader.headers.browserxssfilter=true"</code></pre></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_4" /><label for="__tabbed_3_4">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">http:
+  middlewares:
+    testHeader:
+      headers:
+        frameDeny: true
+        browserXssFilter: true</code></pre></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_5" /><label for="__tabbed_3_5">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[http.middlewares]
+  [http.middlewares.testHeader.headers]
+    frameDeny = true
+    browserXssFilter = true</code></pre></div>
+</div>
+<h3 id="cors-headers">CORS Headers<a class="headerlink" href="index.html#cors-headers" title="Permanent link">&para;</a></h3>
+<p>CORS (Cross-Origin Resource Sharing) headers can be added and configured in a manner similar to the custom headers above.
+This functionality allows for more advanced security features to quickly be set.
+If CORS headers are set, then the middleware does not pass preflight requests to any service,
+instead the response will be generated and sent back to the client directly.<br />
+Please note that the example below is by no means authoritative or exhaustive,
+and should not be used as is for production.</p>
+<div class="tabbed-set" data-tabs="4:5">
+<input name="__tabbed_4" type="radio" id="__tabbed_4_1" checked="checked" /><label for="__tabbed_4_1">Docker & Swarm</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">labels:
+  - "traefik.http.middlewares.testheader.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
+  - "traefik.http.middlewares.testheader.headers.accesscontrolallowheaders=*"
+  - "traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist=https://foo.bar.org,https://example.org"
+  - "traefik.http.middlewares.testheader.headers.accesscontrolmaxage=100"
+  - "traefik.http.middlewares.testheader.headers.addvaryheader=true"</code></pre></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_2" /><label for="__tabbed_4_2">Kubernetes</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: test-header
+spec:
+  headers:
+    accessControlAllowMethods:
+      - "GET"
+      - "OPTIONS"
+      - "PUT"
+    accessControlAllowHeaders:
+      - "*"
+    accessControlAllowOriginList:
+      - "https://foo.bar.org"
+      - "https://example.org"
+    accessControlMaxAge: 100
+    addVaryHeader: true</code></pre></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_3" /><label for="__tabbed_4_3">Consul Catalog</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">- "traefik.http.middlewares.testheader.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
+- "traefik.http.middlewares.testheader.headers.accesscontrolallowheaders=*"
+- "traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist=https://foo.bar.org,https://example.org"
+- "traefik.http.middlewares.testheader.headers.accesscontrolmaxage=100"
+- "traefik.http.middlewares.testheader.headers.addvaryheader=true"</code></pre></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_4" /><label for="__tabbed_4_4">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">http:
+  middlewares:
+    testHeader:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+        accessControlAllowHeaders: "*"
+        accessControlAllowOriginList:
+          - https://foo.bar.org
+          - https://example.org
+        accessControlMaxAge: 100
+        addVaryHeader: true</code></pre></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_5" /><label for="__tabbed_4_5">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[http.middlewares]
+  [http.middlewares.testHeader.headers]
+    accessControlAllowMethods = ["GET", "OPTIONS", "PUT"]
+    accessControlAllowHeaders = [ "*" ]
+    accessControlAllowOriginList = ["https://foo.bar.org","https://example.org"]
+    accessControlMaxAge = 100
+    addVaryHeader = true</code></pre></div>
+</div>
+<h2 id="configuration-options">Configuration Options<a class="headerlink" href="index.html#configuration-options" title="Permanent link">&para;</a></h2>
+<h3 id="general">General<a class="headerlink" href="index.html#general" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Custom headers will overwrite existing headers if they have identical names.</p>
+</div>
+<div class="admonition note">
+<p>The detailed documentation for security headers can be found in <a href="https://github.com/unrolled/secure#available-options">unrolled/secure</a>.</p>
+</div>
+<h3 id="customrequestheaders"><code>customRequestHeaders</code><a class="headerlink" href="index.html#customrequestheaders" title="Permanent link">&para;</a></h3>
+<p>The <code>customRequestHeaders</code> option lists the header names and values to apply to the request.</p>
+<h3 id="customresponseheaders"><code>customResponseHeaders</code><a class="headerlink" href="index.html#customresponseheaders" title="Permanent link">&para;</a></h3>
+<p>The <code>customResponseHeaders</code> option lists the header names and values to apply to the response.</p>
+<h3 id="accesscontrolallowcredentials"><code>accessControlAllowCredentials</code><a class="headerlink" href="index.html#accesscontrolallowcredentials" title="Permanent link">&para;</a></h3>
+<p>The <code>accessControlAllowCredentials</code> indicates whether the request can include user credentials.</p>
+<h3 id="accesscontrolallowheaders"><code>accessControlAllowHeaders</code><a class="headerlink" href="index.html#accesscontrolallowheaders" title="Permanent link">&para;</a></h3>
+<p>The <code>accessControlAllowHeaders</code> indicates which header field names can be used as part of the request.</p>
+<h3 id="accesscontrolallowmethods"><code>accessControlAllowMethods</code><a class="headerlink" href="index.html#accesscontrolallowmethods" title="Permanent link">&para;</a></h3>
+<p>The  <code>accessControlAllowMethods</code> indicates which methods can be used during requests.</p>
+<h3 id="accesscontrolalloworiginlist"><code>accessControlAllowOriginList</code><a class="headerlink" href="index.html#accesscontrolalloworiginlist" title="Permanent link">&para;</a></h3>
+<p>The <code>accessControlAllowOriginList</code> indicates whether a resource can be shared by returning different values.</p>
+<p>A wildcard origin <code>*</code> can also be configured, and matches all requests.
+If this value is set by a backend service, it will be overwritten by Traefik.</p>
+<p>This value can contain a list of allowed origins.</p>
+<p>More information including how to use the settings can be found at:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Mozilla.org</a></li>
+<li><a href="https://fetch.spec.whatwg.org/#http-access-control-allow-origin">w3</a></li>
+<li><a href="https://tools.ietf.org/html/rfc6454#section-7.1">IETF</a></li>
+</ul>
+<p>Traefik no longer supports the <code>null</code> value, as it is <a href="https://w3c.github.io/webappsec-cors-for-developers/#avoid-returning-access-control-allow-origin-null">no longer recommended as a return value</a>.</p>
+<h3 id="accesscontrolalloworiginlistregex"><code>accessControlAllowOriginListRegex</code><a class="headerlink" href="index.html#accesscontrolalloworiginlistregex" title="Permanent link">&para;</a></h3>
+<p>The <code>accessControlAllowOriginListRegex</code> option is the counterpart of the <code>accessControlAllowOriginList</code> option with regular expressions instead of origin values.
+It allows all origins that contain any match of a regular expression in the <code>accessControlAllowOriginList</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Regular expressions and replacements can be tested using online tools such as <a href="https://play.golang.org/p/mWU9p-wk2ru">Go Playground</a> or the <a href="https://regex101.com/r/58sIgx/2">Regex101</a>.</p>
+<p>When defining a regular expression within YAML, any escaped character needs to be escaped twice: <code>example\.com</code> needs to be written as <code>example\\.com</code>.</p>
+</div>
+<h3 id="accesscontrolexposeheaders"><code>accessControlExposeHeaders</code><a class="headerlink" href="index.html#accesscontrolexposeheaders" title="Permanent link">&para;</a></h3>
+<p>The <code>accessControlExposeHeaders</code> indicates which headers are safe to expose to the api of a CORS API specification.</p>
+<h3 id="accesscontrolmaxage"><code>accessControlMaxAge</code><a class="headerlink" href="index.html#accesscontrolmaxage" title="Permanent link">&para;</a></h3>
+<p>The <code>accessControlMaxAge</code> indicates how many seconds a preflight request can be cached for.</p>
+<h3 id="addvaryheader"><code>addVaryHeader</code><a class="headerlink" href="index.html#addvaryheader" title="Permanent link">&para;</a></h3>
+<p>The <code>addVaryHeader</code> is used in conjunction with <code>accessControlAllowOriginList</code> to determine whether the <code>Vary</code> header should be added or modified to demonstrate that server responses can differ based on the value of the origin header.</p>
+<h3 id="allowedhosts"><code>allowedHosts</code><a class="headerlink" href="index.html#allowedhosts" title="Permanent link">&para;</a></h3>
+<p>The <code>allowedHosts</code> option lists fully qualified domain names that are allowed.</p>
+<h3 id="hostsproxyheaders"><code>hostsProxyHeaders</code><a class="headerlink" href="index.html#hostsproxyheaders" title="Permanent link">&para;</a></h3>
+<p>The <code>hostsProxyHeaders</code> option is a set of header keys that may hold a proxied hostname value for the request.</p>
+<h3 id="sslredirect"><code>sslRedirect</code><a class="headerlink" href="index.html#sslredirect" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in favor of <a href="https://doc.traefik.io/traefik/routing/entrypoints/#redirection">EntryPoint redirection</a> or the <a href="../redirectscheme/index.html">RedirectScheme middleware</a>.</p>
+</div>
+<p>The <code>sslRedirect</code> only allow HTTPS requests when set to <code>true</code>.</p>
+<h3 id="ssltemporaryredirect"><code>sslTemporaryRedirect</code><a class="headerlink" href="index.html#ssltemporaryredirect" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in favor of <a href="https://doc.traefik.io/traefik/routing/entrypoints/#redirection">EntryPoint redirection</a> or the <a href="../redirectscheme/index.html">RedirectScheme middleware</a>.</p>
+</div>
+<p>Set <code>sslTemporaryRedirect</code> to <code>true</code> to force an SSL redirection using a 302 (instead of a 301).</p>
+<h3 id="sslhost"><code>sslHost</code><a class="headerlink" href="index.html#sslhost" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in favor of the <a href="../redirectregex/index.html">RedirectRegex middleware</a>.</p>
+</div>
+<p>The <code>sslHost</code> option is the host name that is used to redirect HTTP requests to HTTPS.</p>
+<h3 id="sslproxyheaders"><code>sslProxyHeaders</code><a class="headerlink" href="index.html#sslproxyheaders" title="Permanent link">&para;</a></h3>
+<p>The <code>sslProxyHeaders</code> option is set of header keys with associated values that would indicate a valid HTTPS request.
+It can be useful when using other proxies (example: <code>"X-Forwarded-Proto": "https"</code>).</p>
+<h3 id="sslforcehost"><code>sslForceHost</code><a class="headerlink" href="index.html#sslforcehost" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in favor of the <a href="../redirectregex/index.html">RedirectRegex middleware</a>.</p>
+</div>
+<p>Set <code>sslForceHost</code> to <code>true</code> and set <code>sslHost</code> to force requests to use <code>SSLHost</code> regardless of whether they already use SSL.</p>
+<h3 id="stsseconds"><code>stsSeconds</code><a class="headerlink" href="index.html#stsseconds" title="Permanent link">&para;</a></h3>
+<p>The <code>stsSeconds</code> is the max-age of the <code>Strict-Transport-Security</code> header.
+If set to <code>0</code>, the header is not set.</p>
+<h3 id="stsincludesubdomains"><code>stsIncludeSubdomains</code><a class="headerlink" href="index.html#stsincludesubdomains" title="Permanent link">&para;</a></h3>
+<p>If the <code>stsIncludeSubdomains</code> is set to <code>true</code>, the <code>includeSubDomains</code> directive is appended to the <code>Strict-Transport-Security</code> header.</p>
+<h3 id="stspreload"><code>stsPreload</code><a class="headerlink" href="index.html#stspreload" title="Permanent link">&para;</a></h3>
+<p>Set <code>stsPreload</code> to <code>true</code> to have the <code>preload</code> flag appended to the <code>Strict-Transport-Security</code> header.</p>
+<h3 id="forcestsheader"><code>forceSTSHeader</code><a class="headerlink" href="index.html#forcestsheader" title="Permanent link">&para;</a></h3>
+<p>Set <code>forceSTSHeader</code> to <code>true</code> to add the STS header even when the connection is HTTP.</p>
+<h3 id="framedeny"><code>frameDeny</code><a class="headerlink" href="index.html#framedeny" title="Permanent link">&para;</a></h3>
+<p>Set <code>frameDeny</code> to <code>true</code> to add the <code>X-Frame-Options</code> header with the value of <code>DENY</code>.</p>
+<h3 id="customframeoptionsvalue"><code>customFrameOptionsValue</code><a class="headerlink" href="index.html#customframeoptionsvalue" title="Permanent link">&para;</a></h3>
+<p>The <code>customFrameOptionsValue</code> allows the <code>X-Frame-Options</code> header value to be set with a custom value.
+This overrides the <code>FrameDeny</code> option.</p>
+<h3 id="contenttypenosniff"><code>contentTypeNosniff</code><a class="headerlink" href="index.html#contenttypenosniff" title="Permanent link">&para;</a></h3>
+<p>Set <code>contentTypeNosniff</code> to true to add the <code>X-Content-Type-Options</code> header with the value <code>nosniff</code>.</p>
+<h3 id="browserxssfilter"><code>browserXssFilter</code><a class="headerlink" href="index.html#browserxssfilter" title="Permanent link">&para;</a></h3>
+<p>Set <code>browserXssFilter</code> to true to add the <code>X-XSS-Protection</code> header with the value <code>1; mode=block</code>.</p>
+<h3 id="custombrowserxssvalue"><code>customBrowserXSSValue</code><a class="headerlink" href="index.html#custombrowserxssvalue" title="Permanent link">&para;</a></h3>
+<p>The <code>customBrowserXssValue</code> option allows the <code>X-XSS-Protection</code> header value to be set with a custom value.
+This overrides the <code>BrowserXssFilter</code> option.</p>
+<h3 id="contentsecuritypolicy"><code>contentSecurityPolicy</code><a class="headerlink" href="index.html#contentsecuritypolicy" title="Permanent link">&para;</a></h3>
+<p>The <code>contentSecurityPolicy</code> option allows the <code>Content-Security-Policy</code> header value to be set with a custom value.</p>
+<h3 id="contentsecuritypolicyreportonly"><code>contentSecurityPolicyReportOnly</code><a class="headerlink" href="index.html#contentsecuritypolicyreportonly" title="Permanent link">&para;</a></h3>
+<p>The <code>contentSecurityPolicyReportOnly</code> option allows the <code>Content-Security-Policy-Report-Only</code> header value to be set with a custom value.</p>
+<h3 id="publickey"><code>publicKey</code><a class="headerlink" href="index.html#publickey" title="Permanent link">&para;</a></h3>
+<p>The <code>publicKey</code> implements HPKP to prevent MITM attacks with forged certificates.</p>
+<h3 id="referrerpolicy"><code>referrerPolicy</code><a class="headerlink" href="index.html#referrerpolicy" title="Permanent link">&para;</a></h3>
+<p>The <code>referrerPolicy</code> allows sites to control whether browsers forward the <code>Referer</code> header to other sites.</p>
+<h3 id="featurepolicy"><code>featurePolicy</code><a class="headerlink" href="index.html#featurepolicy" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in favor of <a href="index.html#permissionsPolicy"><code>permissionsPolicy</code></a></p>
+</div>
+<p>The <code>featurePolicy</code> allows sites to control browser features.</p>
+<h3 id="permissionspolicy"><code>permissionsPolicy</code><a class="headerlink" href="index.html#permissionspolicy" title="Permanent link">&para;</a></h3>
+<p>The <code>permissionsPolicy</code> allows sites to control browser features.</p>
+<h3 id="isdevelopment"><code>isDevelopment</code><a class="headerlink" href="index.html#isdevelopment" title="Permanent link">&para;</a></h3>
+<p>Set <code>isDevelopment</code> to <code>true</code> when developing to mitigate the unwanted effects of the <code>AllowedHosts</code>, SSL, and STS options.
+Usually testing takes place using HTTP, not HTTPS, and on <code>localhost</code>, not your production domain.
+If you would like your development environment to mimic production with complete Host blocking, SSL redirects, and STS headers, leave this as <code>false</code>.</p>
+<hr />
+<div class="admonition question">
+<p class="admonition-title">Using Traefik OSS in Production?</p>
+<p>If you are using Traefik at work, consider adding enterprise-grade API gateway capabilities or commercial support for Traefik OSS.</p>
+<ul>
+<li><a href="https://info.traefik.io/watch-traefik-api-gw-demo?cta=doc">Watch our API Gateway Demo Video</a></li>
+<li><a href="https://info.traefik.io/request-commercial-support?cta=doc">Request 24/7/365 OSS Support</a></li>
+</ul>
+<p>Adding API Gateway capabilities to Traefik OSS is fast and seamless. There's no rip and replace and all configurations remain intact. See it in action via <a href="https://info.traefik.io/watch-traefik-api-gw-demo?cta=doc">this short video</a>.</p>
+</div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../grpcweb/index.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                GrpcWeb
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../ipwhitelist/index.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                IPWhiteList
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Traefik Labs • Copyright &copy; 2016-2025
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="https://doc.traefik.io/traefik/assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="https://doc.traefik.io/traefik/assets/javascripts/bundle.35864de0.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../../assets/javascripts/worker/search.1866c2a5.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://doc.traefik.io/traefik/assets/js/hljs/highlight.pack.js"></script>
+      
+        <script src="https://doc.traefik.io/traefik/assets/js/extra.js"></script>
+      
+        <script src="https://doc.traefik.io/traefik/theme/js/structor-menu.js"></script>
+      
+    
+  </body>
+</html>

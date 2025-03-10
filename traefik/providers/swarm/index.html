@@ -1,0 +1,3845 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Learn how to achieve configuration discovery in Traefik through Docker Swarm. Read the technical documentation.">
+      
+      
+      
+      
+        <meta name="author" content="traefik.io">
+      
+      
+      
+        <link rel="shortcut icon" href="https://doc.traefik.io/traefik/assets/img/traefikproxy-icon-color.png" type="image/x-icon">
+      
+      
+        <link rel="shortcut icon" href="https://doc.traefik.io/traefik/assets/images/logo-traefik-proxy-icon.svg" type="image/svg+xml">
+      
+      <meta name="generator" content="mkdocs-1.2.4, mkdocs-traefiklabs-100.0.23">
+    
+    
+      
+        <title>Traefik Docker Swarm Documentation - Traefik</title>
+      
+    
+    
+      <link rel="stylesheet" href="https://doc.traefik.io/traefik/assets/stylesheets/main.aba156d1.min.css">
+      
+        
+        <link rel="stylesheet" href="https://doc.traefik.io/traefik/assets/stylesheets/palette.bd9ced1d.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#00bdd6">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      <script>!function(e,t,a,n){e[n]=e[n]||[],e[n].push({"gtm.start":(new Date).getTime(),event:"gtm.js"});var g=t.getElementsByTagName(a)[0],m=t.createElement(a);m.async=!0,m.src="https://www.googletagmanager.com/gtm.js?id=GTM-NMWC63S",g.parentNode.insertBefore(m,g)}(window,document,"script","dataLayer")</script>
+    
+    
+    <script src="https://traefik.github.io/traefiklabs-header-app/main-v1.js"></script>
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="cyan" data-md-color-accent="cyan">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="index.html#traefik-docker-swarm" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    
+      <header class="md-header">
+  
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required onfocus='document.querySelector("[data-md-toggle=search]").click()'>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+<div style="height:64px"></div>
+<header-app></header-app>
+<div class="header-container__mobile"></div>
+<label class="md-icon md-icon--menu md-header-nav__button" for="__drawer">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+</label>
+    
+    <div class="md-container" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary">
+                <nav class="product-switcher">
+  <div class="menu-item-wrapper menu-item-wrapper--dropdown">
+    <a class="menu-item menu-item--with-icon">
+      
+      <img src="https://doc.traefik.io/traefik/assets/images/logo-traefik-proxy-logo.svg" height="48px" width="auto" alt="Traefik Proxy">
+      
+      <span class="icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </a>
+    <div class="nav-dropdown-menu nav-dropdown-menu--products">
+      <div class="nav-dropdown-menu-wrapper">
+        <div class="dm-header">Product Documentation</div>
+        <div class="dm-items">
+           
+          <div class="dm-item">
+            <div class="dmi-image hub">
+              <img src="https://doc.traefik.io/traefik/assets/images/traefik-hub-logo-white.svg" alt="Traefik Hub">
+            </div>
+            <a class="dmi-details" href="https://doc.traefik.io/traefik-hub/">
+              <div class="dmi-title">Traefik Hub</div>
+              <div class="dmi-description">
+                Kubernetes-Native API Management
+              </div>
+            </a>
+          </div>
+           
+          <div class="dm-item dm-item--traefikee">
+            <div class="dmi-image enterprise">
+              <img src="https://doc.traefik.io/traefik/assets/images/traefik-enterprise-logo.svg" alt="Traefik Enterprise">
+            </div>
+            <a class="dmi-details" href="https://doc.traefik.io/traefik-enterprise/">
+              <div class="dmi-title">Traefik Enterprise</div>
+              <div class="dmi-description">
+                The API Gateway Cloud Natives Trust
+              </div>
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+                
+                  
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required onfocus='document.querySelector("[data-md-toggle=search]").click()'>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                  <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+                
+                <div class="md-sidebar__scrollwrap" data-md-component="navigation">
+                  <div class="md-sidebar__inner">
+                  
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="Traefik" class="md-nav__button md-logo" aria-label="Traefik">
+      
+  <img src="https://doc.traefik.io/traefik/assets/img/traefikproxy-vertical-logo-color.svg" alt="logo">
+
+    </a>
+    Traefik
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/traefik/traefik/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../index.html" class="md-nav__link">
+      Welcome
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+    <label class="md-nav__link" for="nav-2">
+      <span class="md-nav__item-title">Getting Started</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/concepts/" class="md-nav__link">
+      Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2" >
+    <label class="md-nav__link" for="nav-2-2">
+      <span class="md-nav__item-title">Quick Start</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Quick Start" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        <span class="md-nav__icon md-icon"></span>
+        Quick Start
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/quick-start/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/quick-start-with-kubernetes/" class="md-nav__link">
+      Kubernetes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/configuration-overview/" class="md-nav__link">
+      Configuration Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/install-traefik/" class="md-nav__link">
+      Install Traefik
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/getting-started/faq/" class="md-nav__link">
+      Frequently Asked Questions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    <label class="md-nav__link" for="nav-3">
+      <span class="md-nav__item-title">Configuration Discovery</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Configuration Discovery" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        Configuration Discovery
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../docker/index.html" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Swarm
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="index.html" class="md-nav__link md-nav__link--active">
+      Swarm
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="index.html#configuration-examples" class="md-nav__link">
+    Configuration Examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="index.html#routing-configuration" class="md-nav__link">
+    Routing Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Routing Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#routing-configuration-with-labels" class="md-nav__link">
+    Routing Configuration with Labels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#port-detection" class="md-nav__link">
+    Port Detection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#host-networking" class="md-nav__link">
+    Host networking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#ipv4-ipv6" class="md-nav__link">
+    IPv4 &amp;&amp; IPv6
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#docker-api-access" class="md-nav__link">
+    Docker API Access
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#endpoint" class="md-nav__link">
+    endpoint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#username" class="md-nav__link">
+    username
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#password" class="md-nav__link">
+    password
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#usebindportip" class="md-nav__link">
+    useBindPortIP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#exposedbydefault" class="md-nav__link">
+    exposedByDefault
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#network" class="md-nav__link">
+    network
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#defaultrule" class="md-nav__link">
+    defaultRule
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#refreshseconds" class="md-nav__link">
+    refreshSeconds
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#httpclienttimeout" class="md-nav__link">
+    httpClientTimeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#watch" class="md-nav__link">
+    watch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#constraints" class="md-nav__link">
+    constraints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#tls" class="md-nav__link">
+    tls
+  </a>
+  
+    <nav class="md-nav" aria-label="tls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#ca" class="md-nav__link">
+    ca
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#cert" class="md-nav__link">
+    cert
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#key" class="md-nav__link">
+    key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#insecureskipverify" class="md-nav__link">
+    insecureSkipVerify
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#allowemptyservices" class="md-nav__link">
+    allowEmptyServices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../kubernetes-crd/index.html" class="md-nav__link">
+      Kubernetes IngressRoute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../kubernetes-ingress/index.html" class="md-nav__link">
+      Kubernetes Ingress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../kubernetes-gateway/index.html" class="md-nav__link">
+      Kubernetes Gateway API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../consul-catalog/index.html" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nomad/index.html" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ecs/index.html" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../file/index.html" class="md-nav__link">
+      File
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../consul/index.html" class="md-nav__link">
+      Consul
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../etcd/index.html" class="md-nav__link">
+      Etcd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../zookeeper/index.html" class="md-nav__link">
+      ZooKeeper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../redis/index.html" class="md-nav__link">
+      Redis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../http/index.html" class="md-nav__link">
+      HTTP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+    <label class="md-nav__link" for="nav-4">
+      <span class="md-nav__item-title">Routing & Load Balancing</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Routing & Load Balancing" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        Routing & Load Balancing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/entrypoints/" class="md-nav__link">
+      EntryPoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/routers/" class="md-nav__link">
+      Routers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/services/" class="md-nav__link">
+      Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5" >
+    <label class="md-nav__link" for="nav-4-5">
+      <span class="md-nav__item-title">Providers</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Providers" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        <span class="md-nav__icon md-icon"></span>
+        Providers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/swarm/" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/" class="md-nav__link">
+      Kubernetes IngressRoute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kubernetes-ingress/" class="md-nav__link">
+      Kubernetes Ingress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kubernetes-gateway/" class="md-nav__link">
+      Kubernetes Gateway API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/consul-catalog/" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/nomad/" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/ecs/" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/routing/providers/kv/" class="md-nav__link">
+      KV
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+    <label class="md-nav__link" for="nav-5">
+      <span class="md-nav__item-title">HTTPS & TLS</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="HTTPS & TLS" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        HTTPS & TLS
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/tls/" class="md-nav__link">
+      TLS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/acme/" class="md-nav__link">
+      Let's Encrypt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/tailscale/" class="md-nav__link">
+      Tailscale
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/https/spiffe/" class="md-nav__link">
+      SPIFFE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    <label class="md-nav__link" for="nav-6">
+      <span class="md-nav__item-title">Middlewares</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Middlewares" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Middlewares
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2" >
+    <label class="md-nav__link" for="nav-6-2">
+      <span class="md-nav__item-title">HTTP</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="HTTP" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        <span class="md-nav__icon md-icon"></span>
+        HTTP
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/addprefix/index.html" class="md-nav__link">
+      AddPrefix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/basicauth/index.html" class="md-nav__link">
+      BasicAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/buffering/index.html" class="md-nav__link">
+      Buffering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/chain/index.html" class="md-nav__link">
+      Chain
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/circuitbreaker/index.html" class="md-nav__link">
+      CircuitBreaker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/compress/index.html" class="md-nav__link">
+      Compress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/contenttype/index.html" class="md-nav__link">
+      ContentType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/digestauth/index.html" class="md-nav__link">
+      DigestAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/errorpages/index.html" class="md-nav__link">
+      Errors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/forwardauth/index.html" class="md-nav__link">
+      ForwardAuth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/grpcweb/index.html" class="md-nav__link">
+      GrpcWeb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/headers/index.html" class="md-nav__link">
+      Headers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/ipwhitelist/index.html" class="md-nav__link">
+      IPWhiteList
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/ipallowlist/index.html" class="md-nav__link">
+      IPAllowList
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/inflightreq/index.html" class="md-nav__link">
+      InFlightReq
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/passtlsclientcert/index.html" class="md-nav__link">
+      PassTLSClientCert
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/ratelimit/index.html" class="md-nav__link">
+      RateLimit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/redirectregex/index.html" class="md-nav__link">
+      RedirectRegex
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/redirectscheme/index.html" class="md-nav__link">
+      RedirectScheme
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/replacepath/index.html" class="md-nav__link">
+      ReplacePath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/replacepathregex/index.html" class="md-nav__link">
+      ReplacePathRegex
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/retry/index.html" class="md-nav__link">
+      Retry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/stripprefix/index.html" class="md-nav__link">
+      StripPrefix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/http/stripprefixregex/index.html" class="md-nav__link">
+      StripPrefixRegex
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3" >
+    <label class="md-nav__link" for="nav-6-3">
+      <span class="md-nav__item-title">TCP</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="TCP" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-3">
+        <span class="md-nav__icon md-icon"></span>
+        TCP
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/tcp/overview/index.html" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/tcp/inflightconn/index.html" class="md-nav__link">
+      InFlightConn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/tcp/ipwhitelist/index.html" class="md-nav__link">
+      IPWhiteList
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../middlewares/tcp/ipallowlist/index.html" class="md-nav__link">
+      IPAllowList
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/plugins/" class="md-nav__link">
+      Plugins & Plugin Catalog
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8" >
+    <label class="md-nav__link" for="nav-8">
+      <span class="md-nav__item-title">Operations</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Operations" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Operations
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/cli/" class="md-nav__link">
+      CLI
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/dashboard/" class="md-nav__link">
+      Dashboard
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/api/" class="md-nav__link">
+      API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/operations/ping/" class="md-nav__link">
+      Ping
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9" >
+    <label class="md-nav__link" for="nav-9">
+      <span class="md-nav__item-title">Observability</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Observability" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Observability
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/logs/" class="md-nav__link">
+      Logs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/access-logs/" class="md-nav__link">
+      Access Logs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-4" type="checkbox" id="nav-9-4" >
+    <label class="md-nav__link" for="nav-9-4">
+      <span class="md-nav__item-title">Metrics</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Metrics" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-4">
+        <span class="md-nav__icon md-icon"></span>
+        Metrics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/datadog/" class="md-nav__link">
+      Datadog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/influxdb2/" class="md-nav__link">
+      InfluxDB2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/opentelemetry/" class="md-nav__link">
+      OpenTelemetry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/prometheus/" class="md-nav__link">
+      Prometheus
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/metrics/statsd/" class="md-nav__link">
+      StatsD
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-5" type="checkbox" id="nav-9-5" >
+    <label class="md-nav__link" for="nav-9-5">
+      <span class="md-nav__item-title">Tracing</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Tracing" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-5">
+        <span class="md-nav__icon md-icon"></span>
+        Tracing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/tracing/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/observability/tracing/opentelemetry/" class="md-nav__link">
+      OpenTelemetry
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" >
+    <label class="md-nav__link" for="nav-10">
+      <span class="md-nav__item-title">User Guides</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="User Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        <span class="md-nav__icon md-icon"></span>
+        User Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/fastproxy/" class="md-nav__link">
+      FastProxy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/crd-acme/" class="md-nav__link">
+      Kubernetes and Let's Encrypt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/cert-manager/" class="md-nav__link">
+      Kubernetes and cert-manager
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/grpc/" class="md-nav__link">
+      gRPC Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10-5" type="checkbox" id="nav-10-5" >
+    <label class="md-nav__link" for="nav-10-5">
+      <span class="md-nav__item-title">Docker</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Docker" data-md-level="2">
+      <label class="md-nav__title" for="nav-10-5">
+        <span class="md-nav__icon md-icon"></span>
+        Docker
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/" class="md-nav__link">
+      Basic Example
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10-5-2" type="checkbox" id="nav-10-5-2" >
+    <label class="md-nav__link" for="nav-10-5-2">
+      <span class="md-nav__item-title">HTTPS with Let's Encrypt</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="HTTPS with Let's Encrypt" data-md-level="3">
+      <label class="md-nav__title" for="nav-10-5-2">
+        <span class="md-nav__icon md-icon"></span>
+        HTTPS with Let's Encrypt
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/acme-tls/" class="md-nav__link">
+      TLS Challenge
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/acme-http/" class="md-nav__link">
+      HTTP Challenge
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/user-guides/docker-compose/acme-dns/" class="md-nav__link">
+      DNS Challenge
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11" >
+    <label class="md-nav__link" for="nav-11">
+      <span class="md-nav__item-title">Migration</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Migration" data-md-level="1">
+      <label class="md-nav__title" for="nav-11">
+        <span class="md-nav__icon md-icon"></span>
+        Migration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v3/" class="md-nav__link">
+      Traefik v3 minor migrations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11-2" type="checkbox" id="nav-11-2" >
+    <label class="md-nav__link" for="nav-11-2">
+      <span class="md-nav__item-title">Traefik v2 to v3</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Traefik v2 to v3" data-md-level="2">
+      <label class="md-nav__title" for="nav-11-2">
+        <span class="md-nav__icon md-icon"></span>
+        Traefik v2 to v3
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v2-to-v3/" class="md-nav__link">
+      Migration guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v2-to-v3-details/" class="md-nav__link">
+      Configuration changes for v3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v2/" class="md-nav__link">
+      Traefik v2 minor migrations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/migration/v1-to-v2/" class="md-nav__link">
+      Traefik v1 to v2
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12" >
+    <label class="md-nav__link" for="nav-12">
+      <span class="md-nav__item-title">Contributing</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contributing" data-md-level="1">
+      <label class="md-nav__title" for="nav-12">
+        <span class="md-nav__icon md-icon"></span>
+        Contributing
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/thank-you/" class="md-nav__link">
+      Thank You!
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/submitting-issues/" class="md-nav__link">
+      Submitting Issues
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/submitting-pull-requests/" class="md-nav__link">
+      Submitting PRs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/submitting-security-issues/" class="md-nav__link">
+      Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/building-testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/documentation/" class="md-nav__link">
+      Documentation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/data-collection/" class="md-nav__link">
+      Data Collection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/advocating/" class="md-nav__link">
+      Advocating
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/contributing/maintainers/" class="md-nav__link">
+      Maintainers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13" >
+    <label class="md-nav__link" for="nav-13">
+      <span class="md-nav__item-title">Reference</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Reference" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon"></span>
+        Reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1" type="checkbox" id="nav-13-1" >
+    <label class="md-nav__link" for="nav-13-1">
+      <span class="md-nav__item-title">Install Configuration</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Install Configuration" data-md-level="2">
+      <label class="md-nav__title" for="nav-13-1">
+        <span class="md-nav__icon md-icon"></span>
+        Install Configuration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/boot-environment/" class="md-nav__link">
+      Boot Environment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2" type="checkbox" id="nav-13-1-2" >
+    <label class="md-nav__link" for="nav-13-1-2">
+      <span class="md-nav__item-title">Configuration Discovery</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Configuration Discovery" data-md-level="3">
+      <label class="md-nav__title" for="nav-13-1-2">
+        <span class="md-nav__icon md-icon"></span>
+        Configuration Discovery
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-2" type="checkbox" id="nav-13-1-2-2" >
+    <label class="md-nav__link" for="nav-13-1-2-2">
+      <span class="md-nav__item-title">Kubernetes</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Kubernetes" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-2">
+        <span class="md-nav__icon md-icon"></span>
+        Kubernetes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-gateway/" class="md-nav__link">
+      Kubernetes Gateway API
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-crd/" class="md-nav__link">
+      Kubernetes CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-ingress/" class="md-nav__link">
+      Kubernetes Ingress
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/swarm/" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-5" type="checkbox" id="nav-13-1-2-5" >
+    <label class="md-nav__link" for="nav-13-1-2-5">
+      <span class="md-nav__item-title">Hashicorp</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Hashicorp" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-5">
+        <span class="md-nav__icon md-icon"></span>
+        Hashicorp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/hashicorp/nomad/" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/hashicorp/consul/" class="md-nav__link">
+      Consul
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/hashicorp/consul-catalog/" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-6" type="checkbox" id="nav-13-1-2-6" >
+    <label class="md-nav__link" for="nav-13-1-2-6">
+      <span class="md-nav__item-title">KV Stores</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="KV Stores" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-6">
+        <span class="md-nav__icon md-icon"></span>
+        KV Stores
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/redis/" class="md-nav__link">
+      Redis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/consul/" class="md-nav__link">
+      Consul
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/etcd/" class="md-nav__link">
+      etcd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/kv/zk/" class="md-nav__link">
+      ZooKeeper
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-2-7" type="checkbox" id="nav-13-1-2-7" >
+    <label class="md-nav__link" for="nav-13-1-2-7">
+      <span class="md-nav__item-title">Others</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Others" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-2-7">
+        <span class="md-nav__icon md-icon"></span>
+        Others
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/others/file/" class="md-nav__link">
+      File
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/others/ecs/" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/providers/others/http/" class="md-nav__link">
+      HTTP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/" class="md-nav__link">
+      EntryPoints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/api-dashboard/" class="md-nav__link">
+      API & Dashboard
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-5" type="checkbox" id="nav-13-1-5" >
+    <label class="md-nav__link" for="nav-13-1-5">
+      <span class="md-nav__item-title">TLS</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="TLS" data-md-level="3">
+      <label class="md-nav__title" for="nav-13-1-5">
+        <span class="md-nav__icon md-icon"></span>
+        TLS
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-5-1" type="checkbox" id="nav-13-1-5-1" >
+    <label class="md-nav__link" for="nav-13-1-5-1">
+      <span class="md-nav__item-title">Certificate Resolvers</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Certificate Resolvers" data-md-level="4">
+      <label class="md-nav__title" for="nav-13-1-5-1">
+        <span class="md-nav__icon md-icon"></span>
+        Certificate Resolvers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/overview/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/" class="md-nav__link">
+      ACME
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/tailscale/" class="md-nav__link">
+      Tailscale
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/tls/spiffe/" class="md-nav__link">
+      SPIFFE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-1-6" type="checkbox" id="nav-13-1-6" >
+    <label class="md-nav__link" for="nav-13-1-6">
+      <span class="md-nav__item-title">Observability</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Observability" data-md-level="3">
+      <label class="md-nav__title" for="nav-13-1-6">
+        <span class="md-nav__icon md-icon"></span>
+        Observability
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/metrics/" class="md-nav__link">
+      Metrics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/tracing/" class="md-nav__link">
+      Tracing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/" class="md-nav__link">
+      Logs & AccessLogs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/install-configuration/observability/healthcheck/" class="md-nav__link">
+      Health Check (CLI & Ping)
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13-2" type="checkbox" id="nav-13-2" >
+    <label class="md-nav__link" for="nav-13-2">
+      <span class="md-nav__item-title">Dynamic Configuration</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Dynamic Configuration" data-md-level="2">
+      <label class="md-nav__title" for="nav-13-2">
+        <span class="md-nav__icon md-icon"></span>
+        Dynamic Configuration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/file/" class="md-nav__link">
+      File
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/swarm/" class="md-nav__link">
+      Swarm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/kubernetes-crd/" class="md-nav__link">
+      Kubernetes CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/consul-catalog/" class="md-nav__link">
+      Consul Catalog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/nomad/" class="md-nav__link">
+      Nomad
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/ecs/" class="md-nav__link">
+      ECS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/reference/dynamic-configuration/kv/" class="md-nav__link">
+      KV
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-14" type="checkbox" id="nav-14" >
+    <label class="md-nav__link" for="nav-14">
+      <span class="md-nav__item-title">Deprecation Notices</span>
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Deprecation Notices" data-md-level="1">
+      <label class="md-nav__title" for="nav-14">
+        <span class="md-nav__icon md-icon"></span>
+        Deprecation Notices
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/deprecation/releases/" class="md-nav__link">
+      Releases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://doc.traefik.io/traefik/deprecation/features/" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary">
+                
+                  <div class="md-flex__cell md-flex__cell--shrink repo_url">
+                    <div class="md-header-nav__source">
+                      
+<a href="https://github.com/traefik/traefik/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+                    </div>
+                  </div>
+                
+                <div class="md-sidebar__scrollwrap" data-md-component="toc">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="index.html#configuration-examples" class="md-nav__link">
+    Configuration Examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="index.html#routing-configuration" class="md-nav__link">
+    Routing Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Routing Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#routing-configuration-with-labels" class="md-nav__link">
+    Routing Configuration with Labels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#port-detection" class="md-nav__link">
+    Port Detection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#host-networking" class="md-nav__link">
+    Host networking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#ipv4-ipv6" class="md-nav__link">
+    IPv4 &amp;&amp; IPv6
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#docker-api-access" class="md-nav__link">
+    Docker API Access
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#endpoint" class="md-nav__link">
+    endpoint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#username" class="md-nav__link">
+    username
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#password" class="md-nav__link">
+    password
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#usebindportip" class="md-nav__link">
+    useBindPortIP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#exposedbydefault" class="md-nav__link">
+    exposedByDefault
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#network" class="md-nav__link">
+    network
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#defaultrule" class="md-nav__link">
+    defaultRule
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#refreshseconds" class="md-nav__link">
+    refreshSeconds
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#httpclienttimeout" class="md-nav__link">
+    httpClientTimeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#watch" class="md-nav__link">
+    watch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#constraints" class="md-nav__link">
+    constraints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#tls" class="md-nav__link">
+    tls
+  </a>
+  
+    <nav class="md-nav" aria-label="tls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="index.html#ca" class="md-nav__link">
+    ca
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#cert" class="md-nav__link">
+    cert
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#key" class="md-nav__link">
+    key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#insecureskipverify" class="md-nav__link">
+    insecureSkipVerify
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="index.html#allowemptyservices" class="md-nav__link">
+    allowEmptyServices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/traefik/traefik/edit/v3.3/docs/content/providers/swarm.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="traefik-docker-swarm">Traefik &amp; Docker Swarm<a class="headerlink" href="index.html#traefik-docker-swarm" title="Permanent link">&para;</a></h1>
+<p class="subtitle">A Story of Labels &amp; Containers</p>
+<p><img alt="Docker" src="https://doc.traefik.io/traefik/assets/img/providers/docker.png" /></p>
+<p>Attach labels to your containers and let Traefik do the rest!</p>
+<p>This provider works with <a href="https://docs.docker.com/engine/swarm/">Docker Swarm Mode</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">The Quick Start Uses Docker</p>
+<p>If you have not already read it, maybe you would like to go through the <a href="https://doc.traefik.io/traefik/getting-started/quick-start/">quick start guide</a> that uses the Docker provider.</p>
+</div>
+<h2 id="configuration-examples">Configuration Examples<a class="headerlink" href="index.html#configuration-examples" title="Permanent link">&para;</a></h2>
+<details class="example">
+<summary>Configuring Docker Swarm &amp; Deploying / Exposing one Service</summary>
+<p>Enabling the Swarm provider</p>
+<div class="tabbed-set" data-tabs="1:3">
+<input name="__tabbed_1" type="radio" id="__tabbed_1_1" checked="checked" /><label for="__tabbed_1_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    # swarm classic (1.12-)
+    # endpoint: "tcp://127.0.0.1:2375"
+    # docker swarm mode (1.12+)
+    endpoint: "tcp://127.0.0.1:2377"</code></pre></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_2" /><label for="__tabbed_1_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  # swarm classic (1.12-)
+  # endpoint = "tcp://127.0.0.1:2375"
+  # docker swarm mode (1.12+)
+  endpoint = "tcp://127.0.0.1:2377"</code></pre></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_3" /><label for="__tabbed_1_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash"># swarm classic (1.12-)
+# --providers.swarm.endpoint=tcp://127.0.0.1:2375
+# docker swarm mode (1.12+)
+--providers.swarm.endpoint=tcp://127.0.0.1:2377</code></pre></div>
+</div>
+<p>Attach labels to a single service (not containers) while in Swarm mode (in your Docker compose file).
+When there is only one service, and the router does not specify a service,
+then that service is automatically assigned to the router.</p>
+<pre class="highlight"><code class="language-yaml">version: "3"
+services:
+  my-container:
+    deploy:
+      labels:
+        - traefik.http.routers.my-container.rule=Host(`example.com`)
+        - traefik.http.services.my-container-service.loadbalancer.server.port=8080</code></pre>
+</details>
+<h2 id="routing-configuration">Routing Configuration<a class="headerlink" href="index.html#routing-configuration" title="Permanent link">&para;</a></h2>
+<p>When using Docker as a <a href="../overview/index.html">provider</a>,
+Traefik uses <a href="https://docs.docker.com/engine/reference/commandline/run/#label">container labels</a> to retrieve its routing configuration.</p>
+<p>See the list of labels in the dedicated <a href="https://doc.traefik.io/traefik/routing/providers/docker/">routing</a> section.</p>
+<h3 id="routing-configuration-with-labels">Routing Configuration with Labels<a class="headerlink" href="index.html#routing-configuration-with-labels" title="Permanent link">&para;</a></h3>
+<p>By default, Traefik watches for <a href="https://docs.docker.com/config/labels-custom-metadata/">container level labels</a> on a standalone Docker Engine.</p>
+<p>When using Docker Compose, labels are specified by the directive
+<a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#labels"><code>labels</code></a> from the
+<a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#service-configuration-reference">"services" objects</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Not Only Docker</p>
+<p>Please note that any tool like Nomad, Terraform, Ansible, etc.
+that is able to define a Docker container with labels can work
+with Traefik and the  Swarm provider.</p>
+</div>
+<p>While in Swarm Mode, Traefik uses labels found on services, not on individual containers.</p>
+<p>Therefore, if you use a compose file with Swarm Mode, labels should be defined in the
+<a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#labels-1"><code>deploy</code></a> part of your service.</p>
+<p>This behavior is only enabled for docker-compose version 3+ (<a href="https://docs.docker.com/compose/compose-file/compose-file-v3/">Compose file reference</a>).</p>
+<h3 id="port-detection">Port Detection<a class="headerlink" href="index.html#port-detection" title="Permanent link">&para;</a></h3>
+<p>Traefik retrieves the private IP and port of containers from the Docker API.</p>
+<p>Docker Swarm does not provide any port detection information to Traefik.</p>
+<p>Therefore, you <strong>must</strong> specify the port to use for communication by using the label <code>traefik.http.services.&lt;service_name&gt;.loadbalancer.server.port</code>
+(Check the reference for this label in the <a href="https://doc.traefik.io/traefik/routing/providers/swarm/#services">routing section for Swarm</a>).</p>
+<h3 id="host-networking">Host networking<a class="headerlink" href="index.html#host-networking" title="Permanent link">&para;</a></h3>
+<p>When exposing containers that are configured with <a href="https://docs.docker.com/network/host/">host networking</a>,
+the IP address of the host is resolved as follows:</p>
+<!-- TODO: verify and document the swarm mode case with container.Node.IPAddress coming from the API -->
+<ul>
+<li>try a lookup of <code>host.docker.internal</code></li>
+<li>if the lookup was unsuccessful, try a lookup of <code>host.containers.internal</code>, (<a href="https://docs.podman.io/en/latest/">Podman</a> equivalent of <code>host.docker.internal</code>)</li>
+<li>if that lookup was also unsuccessful, fall back to <code>127.0.0.1</code></li>
+</ul>
+<p>On Linux, for versions of Docker older than 20.10.0, for <code>host.docker.internal</code> to be defined, it should be provided
+as an <code>extra_host</code> to the Traefik container, using the <code>--add-host</code> flag. For example, to set it to the IP address of
+the bridge interface (<code>docker0</code> by default): <code>--add-host=host.docker.internal:172.17.0.1</code></p>
+<h3 id="ipv4-ipv6">IPv4 &amp;&amp; IPv6<a class="headerlink" href="index.html#ipv4-ipv6" title="Permanent link">&para;</a></h3>
+<p>When using a docker stack that uses IPv6,
+Traefik will use the IPv4 container IP before its IPv6 counterpart.
+Therefore, on an IPv6 Docker stack,
+Traefik will use the IPv6 container IP.</p>
+<h3 id="docker-api-access">Docker API Access<a class="headerlink" href="index.html#docker-api-access" title="Permanent link">&para;</a></h3>
+<p>Traefik requires access to the docker socket to get its dynamic configuration.</p>
+<p>You can specify which Docker API Endpoint to use with the directive <a href="index.html#endpoint"><code>endpoint</code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Security Note</p>
+<p id="security-note">Accessing the Docker API without any restriction is a security concern:
+If Traefik is attacked, then the attacker might get access to the underlying host.</p>
+<p>As explained in the <a href="https://docs.docker.com/engine/security/#docker-daemon-attack-surface">Docker Daemon Attack Surface documentation</a>:</p>
+<div class="admonition quote">
+<p class="admonition-title">Quote</p>
+<p>[...] only <strong>trusted</strong> users should be allowed to control your Docker daemon [...]</p>
+</div>
+<details class="success">
+<summary>Solutions</summary>
+<p>Expose the Docker socket over TCP or SSH, instead of the default Unix socket file.
+It allows different implementation levels of the <a href="https://en.wikipedia.org/wiki/AAA_(computer_security)">AAA (Authentication, Authorization, Accounting) concepts</a>, depending on your security assessment:</p>
+<ul>
+<li>Authentication with Client Certificates as described in <a href="https://docs.docker.com/engine/security/protect-access/">"Protect the Docker daemon socket."</a></li>
+<li>Authorize and filter requests to restrict possible actions with <a href="https://github.com/Tecnativa/docker-socket-proxy">the TecnativaDocker Socket Proxy</a>.</li>
+<li>Authorization with the <a href="https://web.archive.org/web/20190920092526/https://docs.docker.com/engine/extend/plugins_authorization/">Docker Authorization Plugin Mechanism</a></li>
+<li>Accounting at networking level, by exposing the socket only inside a Docker private network, only available for Traefik.</li>
+<li>Accounting at container level, by exposing the socket on a another container than Traefik's.
+  It allows scheduling of Traefik on worker nodes, with only the "socket exposer" container on the manager nodes.</li>
+<li>Accounting at kernel level, by enforcing kernel calls with mechanisms like <a href="https://en.wikipedia.org/wiki/Security-Enhanced_Linux">SELinux</a>, to only allows an identified set of actions for Traefik's process (or the "socket exposer" process).</li>
+<li>SSH public key authentication (SSH is supported with Docker &gt; 18.09)</li>
+<li>Authentication using HTTP Basic authentication through an HTTP proxy that exposes the Docker daemon socket.</li>
+</ul>
+</details>
+<details class="info">
+<summary>More Resources and Examples</summary>
+<ul>
+<li><a href="https://medium.com/@containeroo/traefik-2-0-paranoid-about-mounting-var-run-docker-sock-22da9cb3e78c">"Paranoid about mounting /var/run/docker.sock?"</a></li>
+<li><a href="https://blog.traefik.io/traefik-and-docker-a-discussion-with-docker-captain-bret-fisher-7f0b9a54ff88">Traefik and Docker: A Discussion with Docker Captain, Bret Fisher</a></li>
+<li><a href="https://www.youtube.com/watch?v=ltrV-Qmh3oY">KubeCon EU 2018 Keynote, Running with Scissors, from Liz Rice</a></li>
+<li><a href="https://www.lvh.io/posts/dont-expose-the-docker-socket-not-even-to-a-container/">Don't expose the Docker socket (not even to a container)</a></li>
+<li><a href="https://news.ycombinator.com/item?id=17983623">A thread on Stack Overflow about sharing the <code>/var/run/docker.sock</code> file</a></li>
+<li><a href="https://blog.loof.fr/2018/01/to-dind-or-not-do-dind.html">To DinD or not to DinD</a></li>
+<li><a href="https://github.com/traefik/traefik/issues/4174">Traefik issue GH-4174 about security with Docker socket</a></li>
+<li><a href="https://developers.redhat.com/blog/2015/02/25/inspecting-docker-activity-with-socat/">Inspecting Docker Activity with Socat</a></li>
+<li><a href="https://blog.mikesir87.io/2018/07/letting-traefik-run-on-worker-nodes/">Letting Traefik run on Worker Nodes</a></li>
+<li><a href="https://github.com/Tecnativa/docker-socket-proxy">Docker Socket Proxy from Tecnativa</a></li>
+</ul>
+</details>
+</div>
+<p>Since the Swarm API is only exposed on the <a href="https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/#manager-nodes">manager nodes</a>,
+these are the nodes that Traefik should be scheduled on by deploying Traefik with a constraint on the node "role":</p>
+<div class="tabbed-set" data-tabs="2:2">
+<input name="__tabbed_2" type="radio" id="__tabbed_2_1" checked="checked" /><label for="__tabbed_2_1">With Docker CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-shell">docker service create \
+  --constraint=node.role==manager \
+  #... \</code></pre></div>
+<input name="__tabbed_2" type="radio" id="__tabbed_2_2" /><label for="__tabbed_2_2">With Docker Compose</label><div class="tabbed-content"><pre class="highlight"><code class="language-yml">version: '3'
+
+services:
+  traefik:
+    # ...
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager</code></pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Scheduling Traefik on Worker Nodes</p>
+<p>Following the guidelines given in the previous section <a href="index.html#docker-api-access">"Docker API Access"</a>,
+if you expose the Docker API through TCP, then Traefik can be scheduled on any node if the TCP
+socket is reachable.</p>
+<p>Please consider the security implications by reading the <a href="index.html#security-note">Security Note</a>.</p>
+<p>A good example can be found on <a href="https://github.com/BretFisher/dogvscat/blob/master/stack-proxy-global.yml#L124">Bret Fisher's repository</a>.</p>
+</div>
+<h3 id="endpoint"><code>endpoint</code><a class="headerlink" href="index.html#endpoint" title="Permanent link">&para;</a></h3>
+<p><em>Required, Default="unix:///var/run/docker.sock"</em></p>
+<p>See the <a href="index.html#docker-api-access">Docker Swarm API Access</a> section for more information.</p>
+<details class="example">
+<summary>Using the docker.sock</summary>
+<p>The docker-compose file shares the docker sock with the Traefik container</p>
+<pre class="highlight"><code class="language-yaml">version: '3'
+
+services:
+  traefik:
+     image: traefik:v3.3 # The official v3 Traefik docker image
+     ports:
+       - "80:80"
+     volumes:
+       - /var/run/docker.sock:/var/run/docker.sock</code></pre>
+<p>We specify the docker.sock in traefik's configuration file.</p>
+<div class="tabbed-set" data-tabs="3:3">
+<input name="__tabbed_3" type="radio" id="__tabbed_3_1" checked="checked" /><label for="__tabbed_3_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    endpoint: "unix:///var/run/docker.sock"
+     # ...</code></pre></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_2" /><label for="__tabbed_3_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  endpoint = "unix:///var/run/docker.sock"
+  # ...</code></pre></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_3" /><label for="__tabbed_3_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.endpoint=unix:///var/run/docker.sock
+# ...</code></pre></div>
+</div>
+</details>
+<details class="example">
+<summary>Using SSH</summary>
+<p>Using Docker 18.09+ you can connect Traefik to daemon using SSH
+We specify the SSH host and user in Traefik's configuration file.
+Note that is server requires public keys for authentication you must have those accessible for user who runs Traefik.</p>
+<div class="tabbed-set" data-tabs="4:3">
+<input name="__tabbed_4" type="radio" id="__tabbed_4_1" checked="checked" /><label for="__tabbed_4_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    endpoint: "ssh://<a href="https://doc.traefik.io/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5a2e283b3f3c33311a6b6368746b6c627468746f">[email&#160;protected]</a>:2022"
+     # ...</code></pre></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_2" /><label for="__tabbed_4_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  endpoint = "ssh://<a href="https://doc.traefik.io/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c181e0d090a05072c5d555e425d5a54425e4259">[email&#160;protected]</a>:2022"
+  # ...</code></pre></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_3" /><label for="__tabbed_4_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.endpoint=ssh://<a href="https://doc.traefik.io/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="700402111516191b304149425e4146485e425e45">[email&#160;protected]</a>:2022
+# ...</code></pre></div>
+</div>
+</details>
+<details class="example">
+<summary>Using HTTP</summary>
+<p>Using Docker Engine API you can connect Traefik to remote daemon using HTTP.</p>
+<div class="tabbed-set" data-tabs="5:3">
+<input name="__tabbed_5" type="radio" id="__tabbed_5_1" checked="checked" /><label for="__tabbed_5_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    endpoint: "http://127.0.0.1:2375"
+     # ...</code></pre></div>
+<input name="__tabbed_5" type="radio" id="__tabbed_5_2" /><label for="__tabbed_5_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  swarm = "http://127.0.0.1:2375"
+  # ...</code></pre></div>
+<input name="__tabbed_5" type="radio" id="__tabbed_5_3" /><label for="__tabbed_5_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.endpoint=http://127.0.0.1:2375
+# ...</code></pre></div>
+</div>
+</details>
+<details class="example">
+<summary>Using TCP</summary>
+<p>Using Docker Engine API you can connect Traefik to remote daemon using TCP.</p>
+<div class="tabbed-set" data-tabs="6:3">
+<input name="__tabbed_6" type="radio" id="__tabbed_6_1" checked="checked" /><label for="__tabbed_6_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    endpoint: "tcp://127.0.0.1:2375"
+     # ...</code></pre></div>
+<input name="__tabbed_6" type="radio" id="__tabbed_6_2" /><label for="__tabbed_6_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  swarm = "tcp://127.0.0.1:2375"
+  # ...</code></pre></div>
+<input name="__tabbed_6" type="radio" id="__tabbed_6_3" /><label for="__tabbed_6_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.endpoint=tcp://127.0.0.1:2375
+# ...</code></pre></div>
+</div>
+</details>
+<div class="tabbed-set" data-tabs="7:3">
+<input name="__tabbed_7" type="radio" id="__tabbed_7_1" checked="checked" /><label for="__tabbed_7_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    endpoint: "unix:///var/run/docker.sock"</code></pre></div>
+<input name="__tabbed_7" type="radio" id="__tabbed_7_2" /><label for="__tabbed_7_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  endpoint = "unix:///var/run/docker.sock"</code></pre></div>
+<input name="__tabbed_7" type="radio" id="__tabbed_7_3" /><label for="__tabbed_7_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.endpoint=unix:///var/run/docker.sock</code></pre></div>
+</div>
+<h3 id="username"><code>username</code><a class="headerlink" href="index.html#username" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=""</em></p>
+<p>Defines the username for Basic HTTP authentication.
+This should be used when the Docker daemon socket is exposed through an HTTP proxy that requires Basic HTTP authentication.</p>
+<div class="tabbed-set" data-tabs="8:3">
+<input name="__tabbed_8" type="radio" id="__tabbed_8_1" checked="checked" /><label for="__tabbed_8_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    username: foo
+    # ...</code></pre></div>
+<input name="__tabbed_8" type="radio" id="__tabbed_8_2" /><label for="__tabbed_8_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  username = "foo"
+  # ...</code></pre></div>
+<input name="__tabbed_8" type="radio" id="__tabbed_8_3" /><label for="__tabbed_8_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.username="foo"
+# ...</code></pre></div>
+</div>
+<h3 id="password"><code>password</code><a class="headerlink" href="index.html#password" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=""</em></p>
+<p>Defines the password for Basic HTTP authentication.
+This should be used when the Docker daemon socket is exposed through an HTTP proxy that requires Basic HTTP authentication.</p>
+<div class="tabbed-set" data-tabs="9:3">
+<input name="__tabbed_9" type="radio" id="__tabbed_9_1" checked="checked" /><label for="__tabbed_9_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    password: foo
+    # ...</code></pre></div>
+<input name="__tabbed_9" type="radio" id="__tabbed_9_2" /><label for="__tabbed_9_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  password = "foo"
+  # ...</code></pre></div>
+<input name="__tabbed_9" type="radio" id="__tabbed_9_3" /><label for="__tabbed_9_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.password="foo"
+# ...</code></pre></div>
+</div>
+<h3 id="usebindportip"><code>useBindPortIP</code><a class="headerlink" href="index.html#usebindportip" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=false</em></p>
+<p>Traefik routes requests to the IP/port of the matching container.
+When setting <code>useBindPortIP=true</code>, you tell Traefik to use the IP/Port attached to the container's <em>binding</em> instead of its inner network IP/Port.</p>
+<p>When used in conjunction with the <code>traefik.http.services.&lt;name&gt;.loadbalancer.server.port</code> label (that tells Traefik to route requests to a specific port),
+Traefik tries to find a binding on port <code>traefik.http.services.&lt;name&gt;.loadbalancer.server.port</code>.
+If it cannot find such a binding, Traefik falls back on the internal network IP of the container,
+but still uses the <code>traefik.http.services.&lt;name&gt;.loadbalancer.server.port</code> that is set in the label.</p>
+<details class="example">
+<summary>Examples of <code>usebindportip</code> in different situations.</summary>
+<table>
+<thead>
+<tr>
+<th>port label</th>
+<th>Container's binding</th>
+<th>Routes to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>IntIP:IntPort</td>
+</tr>
+<tr>
+<td>-</td>
+<td>ExtPort:IntPort</td>
+<td>IntIP:IntPort</td>
+</tr>
+<tr>
+<td>-</td>
+<td>ExtIp:ExtPort:IntPort</td>
+<td>ExtIp:ExtPort</td>
+</tr>
+<tr>
+<td>LblPort</td>
+<td>-</td>
+<td>IntIp:LblPort</td>
+</tr>
+<tr>
+<td>LblPort</td>
+<td>ExtIp:ExtPort:LblPort</td>
+<td>ExtIp:ExtPort</td>
+</tr>
+<tr>
+<td>LblPort</td>
+<td>ExtIp:ExtPort:OtherPort</td>
+<td>IntIp:LblPort</td>
+</tr>
+<tr>
+<td>LblPort</td>
+<td>ExtIp1:ExtPort1:IntPort1 &amp; ExtIp2:LblPort:IntPort2</td>
+<td>ExtIp2:LblPort</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p>In the above table:</p>
+<ul>
+<li><code>ExtIp</code> stands for "external IP found in the binding"</li>
+<li><code>IntIp</code> stands for "internal network container's IP",</li>
+<li><code>ExtPort</code> stands for "external Port found in the binding"</li>
+<li><code>IntPort</code> stands for "internal network container's port."</li>
+</ul>
+</div>
+</details>
+<div class="tabbed-set" data-tabs="10:3">
+<input name="__tabbed_10" type="radio" id="__tabbed_10_1" checked="checked" /><label for="__tabbed_10_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    useBindPortIP: true
+    # ...</code></pre></div>
+<input name="__tabbed_10" type="radio" id="__tabbed_10_2" /><label for="__tabbed_10_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  useBindPortIP = true
+  # ...</code></pre></div>
+<input name="__tabbed_10" type="radio" id="__tabbed_10_3" /><label for="__tabbed_10_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.useBindPortIP=true
+# ...</code></pre></div>
+</div>
+<h3 id="exposedbydefault"><code>exposedByDefault</code><a class="headerlink" href="index.html#exposedbydefault" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=true</em></p>
+<p>Expose containers by default through Traefik.
+If set to <code>false</code>, containers that do not have a <code>traefik.enable=true</code> label are ignored from the resulting routing configuration.</p>
+<p>For additional information, refer to <a href="../overview/index.html#restrict-the-scope-of-service-discovery">Restrict the Scope of Service Discovery</a>.</p>
+<div class="tabbed-set" data-tabs="11:3">
+<input name="__tabbed_11" type="radio" id="__tabbed_11_1" checked="checked" /><label for="__tabbed_11_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    exposedByDefault: false
+    # ...</code></pre></div>
+<input name="__tabbed_11" type="radio" id="__tabbed_11_2" /><label for="__tabbed_11_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  exposedByDefault = false
+  # ...</code></pre></div>
+<input name="__tabbed_11" type="radio" id="__tabbed_11_3" /><label for="__tabbed_11_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.exposedByDefault=false
+# ...</code></pre></div>
+</div>
+<h3 id="network"><code>network</code><a class="headerlink" href="index.html#network" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=""</em></p>
+<p>Defines a default docker network to use for connections to all containers.</p>
+<p>This option can be overridden on a per-container basis with the <code>traefik.docker.network</code> <a href="https://doc.traefik.io/traefik/routing/providers/swarm/#traefikdockernetwork">routing label</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The Docker Swarm provider still uses the same per-container mechanism as the Docker provider, so therefore the label still uses the <code>docker</code> keyword intentionally.</p>
+</div>
+<div class="tabbed-set" data-tabs="12:3">
+<input name="__tabbed_12" type="radio" id="__tabbed_12_1" checked="checked" /><label for="__tabbed_12_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    network: test
+    # ...</code></pre></div>
+<input name="__tabbed_12" type="radio" id="__tabbed_12_2" /><label for="__tabbed_12_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  network = "test"
+  # ...</code></pre></div>
+<input name="__tabbed_12" type="radio" id="__tabbed_12_3" /><label for="__tabbed_12_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.network=test
+# ...</code></pre></div>
+</div>
+<h3 id="defaultrule"><code>defaultRule</code><a class="headerlink" href="index.html#defaultrule" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=<code>Host(`{{ normalize .Name }}`)</code></em></p>
+<p>The <code>defaultRule</code> option defines what routing rule to apply to a container if no rule is defined by a label.</p>
+<p>It must be a valid <a href="https://pkg.go.dev/text/template/">Go template</a>, and can use
+<a href="https://masterminds.github.io/sprig/">sprig template functions</a>.
+The container service name can be accessed with the <code>Name</code> identifier,
+and the template has access to all the labels defined on this container.</p>
+<div class="tabbed-set" data-tabs="13:3">
+<input name="__tabbed_13" type="radio" id="__tabbed_13_1" checked="checked" /><label for="__tabbed_13_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    defaultRule: "Host(`{{ .Name }}.{{ index .Labels \"customLabel\"}}`)"
+    # ...</code></pre></div>
+<input name="__tabbed_13" type="radio" id="__tabbed_13_2" /><label for="__tabbed_13_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  defaultRule = "Host(`{{ .Name }}.{{ index .Labels \"customLabel\"}}`)"
+  # ...</code></pre></div>
+<input name="__tabbed_13" type="radio" id="__tabbed_13_3" /><label for="__tabbed_13_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.defaultRule='Host(`{{ .Name }}.{{ index .Labels "customLabel"}}`)'
+# ...</code></pre></div>
+</div>
+<details class="info">
+<summary>Default rule and Traefik service</summary>
+<p>The exposure of the Traefik container, combined with the default rule mechanism,
+can lead to create a router targeting itself in a loop.
+In this case, to prevent an infinite loop,
+Traefik adds an internal middleware to refuse the request if it comes from the same router.</p>
+</details>
+<h3 id="refreshseconds"><code>refreshSeconds</code><a class="headerlink" href="index.html#refreshseconds" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=15</em></p>
+<p>Defines the polling interval (in seconds) for Swarm Mode.</p>
+<div class="tabbed-set" data-tabs="14:3">
+<input name="__tabbed_14" type="radio" id="__tabbed_14_1" checked="checked" /><label for="__tabbed_14_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    refreshSeconds: 30
+    # ...</code></pre></div>
+<input name="__tabbed_14" type="radio" id="__tabbed_14_2" /><label for="__tabbed_14_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  refreshSeconds = 30
+  # ...</code></pre></div>
+<input name="__tabbed_14" type="radio" id="__tabbed_14_3" /><label for="__tabbed_14_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.refreshSeconds=30
+# ...</code></pre></div>
+</div>
+<h3 id="httpclienttimeout"><code>httpClientTimeout</code><a class="headerlink" href="index.html#httpclienttimeout" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=0</em></p>
+<p>Defines the client timeout (in seconds) for HTTP connections. If its value is <code>0</code>, no timeout is set.</p>
+<div class="tabbed-set" data-tabs="15:3">
+<input name="__tabbed_15" type="radio" id="__tabbed_15_1" checked="checked" /><label for="__tabbed_15_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    httpClientTimeout: 300
+    # ...</code></pre></div>
+<input name="__tabbed_15" type="radio" id="__tabbed_15_2" /><label for="__tabbed_15_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  httpClientTimeout = 300
+  # ...</code></pre></div>
+<input name="__tabbed_15" type="radio" id="__tabbed_15_3" /><label for="__tabbed_15_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.httpClientTimeout=300
+# ...</code></pre></div>
+</div>
+<h3 id="watch"><code>watch</code><a class="headerlink" href="index.html#watch" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=true</em></p>
+<p>Watch Docker events.</p>
+<div class="tabbed-set" data-tabs="16:3">
+<input name="__tabbed_16" type="radio" id="__tabbed_16_1" checked="checked" /><label for="__tabbed_16_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    watch: false
+    # ...</code></pre></div>
+<input name="__tabbed_16" type="radio" id="__tabbed_16_2" /><label for="__tabbed_16_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  watch = false
+  # ...</code></pre></div>
+<input name="__tabbed_16" type="radio" id="__tabbed_16_3" /><label for="__tabbed_16_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.watch=false
+# ...</code></pre></div>
+</div>
+<h3 id="constraints"><code>constraints</code><a class="headerlink" href="index.html#constraints" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=""</em></p>
+<p>The <code>constraints</code> option can be set to an expression that Traefik matches against the container labels to determine whether
+to create any route for that container. If none of the container labels match the expression, no route for that container is
+created. If the expression is empty, all detected containers are included.</p>
+<p>The expression syntax is based on the <code>Label("key", "value")</code>, and <code>LabelRegex("key", "value")</code> functions,
+as well as the usual boolean logic, as shown in examples below.</p>
+<details class="example">
+<summary>Constraints Expression Examples</summary>
+<pre class="highlight"><code class="language-toml"># Includes only containers having a label with key `a.label.name` and value `foo`
+constraints = "Label(`a.label.name`, `foo`)"</code></pre>
+<pre class="highlight"><code class="language-toml"># Excludes containers having any label with key `a.label.name` and value `foo`
+constraints = "!Label(`a.label.name`, `value`)"</code></pre>
+<pre class="highlight"><code class="language-toml"># With logical AND.
+constraints = "Label(`a.label.name`, `valueA`) &amp;&amp; Label(`another.label.name`, `valueB`)"</code></pre>
+<pre class="highlight"><code class="language-toml"># With logical OR.
+constraints = "Label(`a.label.name`, `valueA`) || Label(`another.label.name`, `valueB`)"</code></pre>
+<pre class="highlight"><code class="language-toml"># With logical AND and OR, with precedence set by parentheses.
+constraints = "Label(`a.label.name`, `valueA`) &amp;&amp; (Label(`another.label.name`, `valueB`) || Label(`yet.another.label.name`, `valueC`))"</code></pre>
+<pre class="highlight"><code class="language-toml"># Includes only containers having a label with key `a.label.name` and a value matching the `a.+` regular expression.
+constraints = "LabelRegex(`a.label.name`, `a.+`)"</code></pre>
+</details>
+<p>For additional information, refer to <a href="../overview/index.html#restrict-the-scope-of-service-discovery">Restrict the Scope of Service Discovery</a>.</p>
+<div class="tabbed-set" data-tabs="17:3">
+<input name="__tabbed_17" type="radio" id="__tabbed_17_1" checked="checked" /><label for="__tabbed_17_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    constraints: "Label(`a.label.name`,`foo`)"
+    # ...</code></pre></div>
+<input name="__tabbed_17" type="radio" id="__tabbed_17_2" /><label for="__tabbed_17_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  constraints = "Label(`a.label.name`,`foo`)"
+  # ...</code></pre></div>
+<input name="__tabbed_17" type="radio" id="__tabbed_17_3" /><label for="__tabbed_17_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.constraints=Label(`a.label.name`,`foo`)
+# ...</code></pre></div>
+</div>
+<h3 id="tls"><code>tls</code><a class="headerlink" href="index.html#tls" title="Permanent link">&para;</a></h3>
+<p><em>Optional</em></p>
+<p>Defines the TLS configuration used for the secure connection to Docker.</p>
+<h4 id="ca"><code>ca</code><a class="headerlink" href="index.html#ca" title="Permanent link">&para;</a></h4>
+<p><em>Optional</em></p>
+<p><code>ca</code> is the path to the certificate authority used for the secure connection to Docker,
+it defaults to the system bundle.</p>
+<div class="tabbed-set" data-tabs="18:3">
+<input name="__tabbed_18" type="radio" id="__tabbed_18_1" checked="checked" /><label for="__tabbed_18_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    tls:
+      ca: path/to/ca.crt</code></pre></div>
+<input name="__tabbed_18" type="radio" id="__tabbed_18_2" /><label for="__tabbed_18_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm.tls]
+  ca = "path/to/ca.crt"</code></pre></div>
+<input name="__tabbed_18" type="radio" id="__tabbed_18_3" /><label for="__tabbed_18_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.tls.ca=path/to/ca.crt</code></pre></div>
+</div>
+<h4 id="cert"><code>cert</code><a class="headerlink" href="index.html#cert" title="Permanent link">&para;</a></h4>
+<p><code>cert</code> is the path to the public certificate used for the secure connection to Docker.
+When using this option, setting the <code>key</code> option is required.</p>
+<div class="tabbed-set" data-tabs="19:3">
+<input name="__tabbed_19" type="radio" id="__tabbed_19_1" checked="checked" /><label for="__tabbed_19_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    tls:
+      cert: path/to/foo.cert
+      key: path/to/foo.key</code></pre></div>
+<input name="__tabbed_19" type="radio" id="__tabbed_19_2" /><label for="__tabbed_19_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm.tls]
+  cert = "path/to/foo.cert"
+  key = "path/to/foo.key"</code></pre></div>
+<input name="__tabbed_19" type="radio" id="__tabbed_19_3" /><label for="__tabbed_19_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.tls.cert=path/to/foo.cert
+--providers.swarm.tls.key=path/to/foo.key</code></pre></div>
+</div>
+<h4 id="key"><code>key</code><a class="headerlink" href="index.html#key" title="Permanent link">&para;</a></h4>
+<p><em>Optional</em></p>
+<p><code>key</code> is the path to the private key used for the secure connection Docker.
+When using this option, setting the <code>cert</code> option is required.</p>
+<div class="tabbed-set" data-tabs="20:3">
+<input name="__tabbed_20" type="radio" id="__tabbed_20_1" checked="checked" /><label for="__tabbed_20_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    tls:
+      cert: path/to/foo.cert
+      key: path/to/foo.key</code></pre></div>
+<input name="__tabbed_20" type="radio" id="__tabbed_20_2" /><label for="__tabbed_20_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm.tls]
+  cert = "path/to/foo.cert"
+  key = "path/to/foo.key"</code></pre></div>
+<input name="__tabbed_20" type="radio" id="__tabbed_20_3" /><label for="__tabbed_20_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.tls.cert=path/to/foo.cert
+--providers.swarm.tls.key=path/to/foo.key</code></pre></div>
+</div>
+<h4 id="insecureskipverify"><code>insecureSkipVerify</code><a class="headerlink" href="index.html#insecureskipverify" title="Permanent link">&para;</a></h4>
+<p><em>Optional, Default=false</em></p>
+<p>If <code>insecureSkipVerify</code> is <code>true</code>, the TLS connection to Docker accepts any certificate presented by the server regardless of the hostnames it covers.</p>
+<div class="tabbed-set" data-tabs="21:3">
+<input name="__tabbed_21" type="radio" id="__tabbed_21_1" checked="checked" /><label for="__tabbed_21_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    tls:
+      insecureSkipVerify: true</code></pre></div>
+<input name="__tabbed_21" type="radio" id="__tabbed_21_2" /><label for="__tabbed_21_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm.tls]
+  insecureSkipVerify = true</code></pre></div>
+<input name="__tabbed_21" type="radio" id="__tabbed_21_3" /><label for="__tabbed_21_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.tls.insecureSkipVerify=true</code></pre></div>
+</div>
+<h3 id="allowemptyservices"><code>allowEmptyServices</code><a class="headerlink" href="index.html#allowemptyservices" title="Permanent link">&para;</a></h3>
+<p><em>Optional, Default=false</em></p>
+<p>If the parameter is set to <code>true</code>,
+any <a href="https://doc.traefik.io/traefik/routing/services/#servers-load-balancer">servers load balancer</a> defined for Docker containers is created 
+regardless of the <a href="https://docs.docker.com/engine/reference/builder/#healthcheck">healthiness</a> of the corresponding containers.
+It also then stays alive and responsive even at times when it becomes empty,
+i.e. when all its children containers become unhealthy.
+This results in <code>503</code> HTTP responses instead of <code>404</code> ones,
+in the above cases.</p>
+<div class="tabbed-set" data-tabs="22:3">
+<input name="__tabbed_22" type="radio" id="__tabbed_22_1" checked="checked" /><label for="__tabbed_22_1">File (YAML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-yaml">providers:
+  swarm:
+    allowEmptyServices: true</code></pre></div>
+<input name="__tabbed_22" type="radio" id="__tabbed_22_2" /><label for="__tabbed_22_2">File (TOML)</label><div class="tabbed-content"><pre class="highlight"><code class="language-toml">[providers.swarm]
+  allowEmptyServices = true</code></pre></div>
+<input name="__tabbed_22" type="radio" id="__tabbed_22_3" /><label for="__tabbed_22_3">CLI</label><div class="tabbed-content"><pre class="highlight"><code class="language-bash">--providers.swarm.allowEmptyServices=true</code></pre></div>
+</div>
+<hr />
+<div class="admonition question">
+<p class="admonition-title">Using Traefik OSS in Production?</p>
+<p>If you are using Traefik at work, consider adding enterprise-grade API gateway capabilities or commercial support for Traefik OSS.</p>
+<ul>
+<li><a href="https://info.traefik.io/watch-traefik-api-gw-demo?cta=doc">Watch our API Gateway Demo Video</a></li>
+<li><a href="https://info.traefik.io/request-commercial-support?cta=doc">Request 24/7/365 OSS Support</a></li>
+</ul>
+<p>Adding API Gateway capabilities to Traefik OSS is fast and seamless. There's no rip and replace and all configurations remain intact. See it in action via <a href="https://info.traefik.io/watch-traefik-api-gw-demo?cta=doc">this short video</a>.</p>
+</div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../docker/index.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Docker
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../kubernetes-crd/index.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Kubernetes IngressRoute
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Traefik Labs • Copyright &copy; 2016-2025
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script data-cfasync="false" src="https://doc.traefik.io/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://doc.traefik.io/traefik/assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="https://doc.traefik.io/traefik/assets/javascripts/bundle.35864de0.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.1866c2a5.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://doc.traefik.io/traefik/assets/js/hljs/highlight.pack.js"></script>
+      
+        <script src="https://doc.traefik.io/traefik/assets/js/extra.js"></script>
+      
+        <script src="https://doc.traefik.io/traefik/theme/js/structor-menu.js"></script>
+      
+    
+  </body>
+</html>
